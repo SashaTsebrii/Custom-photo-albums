@@ -14,16 +14,24 @@ class PhotoCell: UICollectionViewCell {
     
     static var identifier: String = "PhotoCell"
     
-    var photo: PhotoData? {
+    var representedAssetIdentifier: String!
+    
+    var thumbnailImage: UIImage! {
         didSet {
-            photoImageView.image = photo?.image
-            photoImageView.backgroundColor = .lightGray
+            photoImageView.image = thumbnailImage
+        }
+    }
+    
+    var livePhotoBadgeImage: UIImage! {
+        didSet {
+            livePhotoBadgeImageView.image = livePhotoBadgeImage
         }
     }
     
     // MARK: Properties
     
     var photoImageView = PreviewImageView(frame: .zero)
+    var livePhotoBadgeImageView = UIImageView(frame: .zero)
     
     // MARK: Initialization
 
@@ -38,10 +46,26 @@ class PhotoCell: UICollectionViewCell {
             photoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2)
         ])
         
+        contentView.addSubview(livePhotoBadgeImageView)
+        NSLayoutConstraint.activate([
+            livePhotoBadgeImageView.widthAnchor.constraint(equalToConstant: 16),
+            livePhotoBadgeImageView.heightAnchor.constraint(equalTo: livePhotoBadgeImageView.widthAnchor),
+            livePhotoBadgeImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            livePhotoBadgeImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+        ])
+        
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        photoImageView.image = nil
+        livePhotoBadgeImageView.image = nil
+        
     }
     
 }
