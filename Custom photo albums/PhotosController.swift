@@ -23,6 +23,11 @@ class PhotosController: UIViewController {
     fileprivate let imageManager = PHCachingImageManager()
     fileprivate var thumbnailSize: CGSize!
     fileprivate var previousPreheatRect = CGRect.zero
+    
+    // This is selected cell Index array
+    var selectedIndexes = [IndexPath]()
+    // This is selected cell data array
+    var selectedImages = [UIImage]()
 
     // MARK: Properties
 
@@ -170,31 +175,6 @@ class PhotosController: UIViewController {
             return ([new], [old])
         }
     }
-    
-    func updateStaticImage(fromImageView imageView: UIImageView, indexPath: IndexPath) {
-        // Prepare the options to pass when fetching the (photo, or video preview) image.
-        let options = PHImageRequestOptions()
-        options.deliveryMode = .highQualityFormat
-        options.isNetworkAccessAllowed = true
-        options.progressHandler = { progress, _, _, _ in
-        }
-        
-        let scale = UIScreen.main.scale
-        let targetSize =  CGSize(width: imageView.bounds.width * scale, height: imageView.bounds.height * scale)
-        
-        let asset = fetchResult.object(at: indexPath.item)
-        
-        PHImageManager.default().requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: options,
-                                              resultHandler: { image, _ in
-                                                // PhotoKit finished the request.
-                                                
-                                                // If the request succeeded, show the image view.
-                                                guard let image = image else { return }
-                                                
-                                                // Show the image.
-                                                // FIXME: Save image.
-        })
-    }
 
 }
 
@@ -234,7 +214,35 @@ extension PhotosController: UICollectionViewDataSource, UICollectionViewDelegate
         
         // FIXME: Implement select cell.
         guard let cell = collectionView.cellForItem(at: indexPath) as? PhotoCell else { return }
-        updateStaticImage(fromImageView: cell.photoImageView, indexPath: indexPath)
+        
+        let options = PHImageRequestOptions()
+        options.deliveryMode = .highQualityFormat
+        options.isNetworkAccessAllowed = true
+        options.progressHandler = { progress, _, _, _ in
+        }
+        
+        let scale = UIScreen.main.scale
+        let targetSize =  CGSize(width: cell.photoImageView.bounds.width * scale, height: cell.photoImageView.bounds.height * scale)
+        
+        let asset = fetchResult.object(at: indexPath.item)
+        
+        PHImageManager.default().requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: options,
+                                              resultHandler: { image, _ in
+                                                // PhotoKit finished the request.
+                                                
+                                                // If the request succeeded, show the image view.
+                                                guard let image = image else { return }
+                                                
+                                                // Selected cell image.
+                                                if self.selectedIndexes.contains(indexPath) {
+                                                    self.selectedIndexes = self.selectedIndexes.filter { $0 != indexPath}
+                                                    self.selectedImages = self.selectedImages.filter { $0 != image}
+                                                } else {
+                                                    self.selectedIndexes.append(indexPath)
+                                                    self.selectedImages.append(image)
+                                                }
+                                                
+        })
 
     }
 
