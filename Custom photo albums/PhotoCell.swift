@@ -14,6 +14,18 @@ class PhotoCell: UICollectionViewCell {
     
     static var identifier: String = "PhotoCell"
     
+    override var isSelected: Bool {
+        didSet {
+
+            if isSelected {
+                overlayView.isHidden = false
+            } else {
+                overlayView.isHidden = true
+            }
+
+        }
+    }
+    
     var representedAssetIdentifier: String!
     
     var thumbnailImage: UIImage! {
@@ -32,6 +44,15 @@ class PhotoCell: UICollectionViewCell {
     
     var photoImageView = PreviewImageView(frame: .zero)
     var livePhotoBadgeImageView = UIImageView(frame: .zero)
+    
+    var overlayView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    var checkView = CheckView(frame: .zero)
     
     // MARK: Initialization
 
@@ -52,6 +73,22 @@ class PhotoCell: UICollectionViewCell {
             livePhotoBadgeImageView.heightAnchor.constraint(equalTo: livePhotoBadgeImageView.widthAnchor),
             livePhotoBadgeImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             livePhotoBadgeImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+        ])
+        
+        photoImageView.addSubview(overlayView)
+        NSLayoutConstraint.activate([
+            overlayView.topAnchor.constraint(equalTo: photoImageView.topAnchor),
+            overlayView.leadingAnchor.constraint(equalTo: photoImageView.leadingAnchor),
+            overlayView.trailingAnchor.constraint(equalTo: photoImageView.trailingAnchor),
+            overlayView.bottomAnchor.constraint(equalTo: photoImageView.bottomAnchor)
+        ])
+        
+        overlayView.addSubview(checkView)
+        NSLayoutConstraint.activate([
+            checkView.widthAnchor.constraint(equalToConstant: 24),
+            checkView.heightAnchor.constraint(equalTo: checkView.widthAnchor),
+            checkView.trailingAnchor.constraint(equalTo: overlayView.trailingAnchor, constant: -4),
+            checkView.bottomAnchor.constraint(equalTo: overlayView.bottomAnchor, constant: -4)
         ])
         
     }

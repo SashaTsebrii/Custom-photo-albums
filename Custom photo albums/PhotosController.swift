@@ -36,6 +36,7 @@ class PhotosController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
+        collectionView.allowsMultipleSelection = true   
         collectionView.alwaysBounceVertical = true
         collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -187,6 +188,7 @@ extension PhotosController: UICollectionViewDataSource, UICollectionViewDelegate
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let asset = fetchResult.object(at: indexPath.item)
         // Dequeue a GridViewCell.
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.identifier, for: indexPath) as? PhotoCell
@@ -205,7 +207,16 @@ extension PhotosController: UICollectionViewDataSource, UICollectionViewDelegate
                 cell.thumbnailImage = image
             }
         })
+        
+        // You need to check wether selected index array contain current index if yes then apply the overlay
+        if selectedIndexes.contains(indexPath) {
+            cell.isSelected = true
+        } else {
+            cell.isSelected = false
+        }
+        
         return cell
+        
     }
 
     // MARK: UICollectionViewDelegate
@@ -243,6 +254,8 @@ extension PhotosController: UICollectionViewDataSource, UICollectionViewDelegate
                                                 }
                                                 
         })
+        
+        cell.isSelected = !cell.isSelected
 
     }
 
