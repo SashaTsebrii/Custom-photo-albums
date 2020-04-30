@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		47090723245B77440068B900 /* CheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47090722245B77440068B900 /* CheckView.swift */; };
 		470F2C61245787F9001516FA /* PreviewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F2C60245787F9001516FA /* PreviewImageView.swift */; };
 		470F2C6324579947001516FA /* BaseLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F2C6224579946001516FA /* BaseLabel.swift */; };
 		4746A5F124573419005766C0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4746A5F024573419005766C0 /* Constants.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		47090722245B77440068B900 /* CheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckView.swift; sourceTree = "<group>"; };
 		470F2C60245787F9001516FA /* PreviewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImageView.swift; sourceTree = "<group>"; };
 		470F2C6224579946001516FA /* BaseLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLabel.swift; sourceTree = "<group>"; };
 		4746A5F024573419005766C0 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 				4746A5F224573435005766C0 /* Extensions.swift */,
 				470F2C60245787F9001516FA /* PreviewImageView.swift */,
 				470F2C6224579946001516FA /* BaseLabel.swift */,
+				47090722245B77440068B900 /* CheckView.swift */,
 				47F8ED8224547AF700C003E4 /* AlbumsController.swift */,
 				4746A5F42457359F005766C0 /* AlbumCell.swift */,
 				4746A5F624573732005766C0 /* PhotosController.swift */,
@@ -158,6 +161,7 @@
 				4746A5F324573435005766C0 /* Extensions.swift in Sources */,
 				47F8ED8324547AF700C003E4 /* AlbumsController.swift in Sources */,
 				47F8ED6F2454798B00C003E4 /* AppDelegate.swift in Sources */,
+				47090723245B77440068B900 /* CheckView.swift in Sources */,
 				47F8ED712454798B00C003E4 /* SceneDelegate.swift in Sources */,
 				4746A5F92457374A005766C0 /* PhotoCell.swift in Sources */,
 				4746A5F52457359F005766C0 /* AlbumCell.swift in Sources */,
