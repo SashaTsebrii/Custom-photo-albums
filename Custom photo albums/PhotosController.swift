@@ -112,8 +112,13 @@ class PhotosController: UIViewController {
     
     @objc func importBarButtonTapped(_ sender: UIBarButtonItem) {
         print("👆 IMPORT BAR BUTTON")
+        
         print(selectedIndexes)
-        print(selectedImages)
+        
+        for selectedIndex in selectedIndexes {
+            saveImageFromCell(byIndexPath: selectedIndex)
+        }
+
     }
     
     // MARK: Asset Caching
@@ -224,64 +229,14 @@ extension PhotosController: UICollectionViewDataSource, UICollectionViewDelegate
     // MARK: UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // FIXME: Create a function for 'didSelectItemAt' and 'didDeselectItemAt' and remove the duplicate code.
-        guard let cell = collectionView.cellForItem(at: indexPath) as? PhotoCell else { return }
         
-        let options = PHImageRequestOptions()
-        options.deliveryMode = .highQualityFormat
-        options.isNetworkAccessAllowed = true
-        options.progressHandler = { progress, _, _, _ in
-        }
-        
-        let scale = UIScreen.main.scale
-        let targetSize =  CGSize(width: cell.photoImageView.bounds.width * scale, height: cell.photoImageView.bounds.height * scale)
-        
-        let asset = fetchResult.object(at: indexPath.item)
-        
-        PHImageManager.default().requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: options,
-                                              resultHandler: { image, _ in
-                                                // PhotoKit finished the request.
-                                                
-                                                // If the request succeeded, show the image view.
-                                                guard let image = image else { return }
-                                                
-                                                // Add selected index and image to selected arrays.
-                                                self.selectedIndexes.append(indexPath)
-                                                self.selectedImages.append(image)
-                                                
-        })
+        selectedIndexes.append(indexPath)
         
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        // FIXME: Create a function for 'didSelectItemAt' and 'didDeselectItemAt' and remove the duplicate code.
-        guard let cell = collectionView.cellForItem(at: indexPath) as? PhotoCell else { return }
         
-        let options = PHImageRequestOptions()
-        options.deliveryMode = .highQualityFormat
-        options.isNetworkAccessAllowed = true
-        options.progressHandler = { progress, _, _, _ in
-        }
-        
-        let scale = UIScreen.main.scale
-        let targetSize =  CGSize(width: cell.photoImageView.bounds.width * scale, height: cell.photoImageView.bounds.height * scale)
-        
-        let asset = fetchResult.object(at: indexPath.item)
-        
-        PHImageManager.default().requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: options,
-                                              resultHandler: { image, _ in
-                                                // PhotoKit finished the request.
-                                                
-                                                // If the request succeeded, show the image view.
-                                                guard let image = image else { return }
-                                                
-                                                // Selected cell image.
-                                                if self.selectedIndexes.contains(indexPath) {
-                                                    self.selectedIndexes = self.selectedIndexes.filter { $0 != indexPath}
-                                                    self.selectedImages = self.selectedImages.filter { $0 != image}
-                                                }
-                                                
-        })
+        selectedIndexes = self.selectedIndexes.filter { $0 != indexPath}
         
     }
     
@@ -348,4 +303,38 @@ extension PhotosController: PHPhotoLibraryChangeObserver {
             resetCachedAssets()
         }
     }
+}
+
+extension PhotosController {
+    
+    // MARK: - Helper function
+    
+    func saveImageFromCell(byIndexPath indexPath: IndexPath) {
+        // FIXME: Create a function for 'didSelectItemAt' and 'didDeselectItemAt' and remove the duplicate code.
+        guard let cell = collectionView.cellForItem(at: indexPath) as? PhotoCell else { return }
+        
+        let options = PHImageRequestOptions()
+        options.deliveryMode = .highQualityFormat
+        options.isNetworkAccessAllowed = true
+        options.progressHandler = { progress, _, _, _ in
+        }
+        
+        let scale = UIScreen.main.scale
+        let targetSize =  CGSize(width: cell.photoImageView.bounds.width * scale, height: cell.photoImageView.bounds.height * scale)
+        
+        let asset = fetchResult.object(at: indexPath.item)
+        
+        PHImageManager.default().requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: options,
+                                              resultHandler: { image, _ in
+                                                // PhotoKit finished the request.
+                                                
+                                                // If the request succeeded, show the image view.
+                                                guard let image = image else { return }
+                                                
+                                                // Add selected index and image to selected arrays.
+                                                self.selectedImages.append(image)
+        })
+        
+    }
+    
 }
