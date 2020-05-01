@@ -14,20 +14,6 @@ class AlbumCell: UICollectionViewCell {
     
     static var identifier: String = "AlbumCell"
     
-    var album: AlbumData? {
-        didSet {
-            backgroundColor = .lightGray
-            
-            titleLabel.text = album?.title
-            if let items = album?.items {
-                subtitleLabel.text = String(items)
-            }
-            mainImageView.backgroundColor = .red
-            secondImageView.backgroundColor = .green
-            thirdImageView.backgroundColor = .blue
-        }
-    }
-    
     // MARK: Properties
 
     var titleLabel: BaseLabel = {
@@ -53,41 +39,43 @@ class AlbumCell: UICollectionViewCell {
         
         contentView.addSubview(mainImageView)
         NSLayoutConstraint.activate([
-            mainImageView.widthAnchor.constraint(equalToConstant: frame.width * 0.7),
+            mainImageView.widthAnchor.constraint(equalToConstant: frame.width * 0.62),
             mainImageView.heightAnchor.constraint(equalTo: mainImageView.widthAnchor),
             mainImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
             mainImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4)
         ])
-
-        contentView.addSubview(secondImageView)
+        
+        let labelsStack = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
+        labelsStack.axis = .vertical
+        labelsStack.distribution = .equalCentering
+        labelsStack.alignment = .leading
+        labelsStack.spacing = 4
+        labelsStack.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(labelsStack)
         NSLayoutConstraint.activate([
-            secondImageView.widthAnchor.constraint(equalToConstant: frame.width * 0.3),
-            secondImageView.heightAnchor.constraint(equalTo: secondImageView.widthAnchor),
-            secondImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
-            secondImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4)
+            titleLabel.heightAnchor.constraint(equalToConstant: 16),
+            subtitleLabel.heightAnchor.constraint(equalToConstant: 12),
+            
+            labelsStack.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: 4),
+            labelsStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
+            labelsStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
+            labelsStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4)
         ])
         
-        contentView.addSubview(thirdImageView)
-        NSLayoutConstraint.activate([
-            thirdImageView.widthAnchor.constraint(equalToConstant: frame.width * 0.3),
-            thirdImageView.heightAnchor.constraint(equalTo: thirdImageView.widthAnchor),
-            thirdImageView.topAnchor.constraint(equalTo: secondImageView.bottomAnchor, constant: 4),
-            thirdImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4)
-        ])
+        let imagesStack = UIStackView(arrangedSubviews: [secondImageView, thirdImageView])
+        imagesStack.axis = .vertical
+        imagesStack.distribution = .fillEqually
+        imagesStack.alignment = .fill
+        imagesStack.spacing = 2
+        imagesStack.translatesAutoresizingMaskIntoConstraints = false
         
-        let stack = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
-        stack.axis = .vertical
-        stack.distribution = .equalCentering
-        stack.alignment = .center
-        stack.spacing = 4
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        
-        contentView.addSubview(stack)
+        contentView.addSubview(imagesStack)
         NSLayoutConstraint.activate([
-            stack.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: 4),
-            stack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
-            stack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
-            stack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4)
+            imagesStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
+            imagesStack.leadingAnchor.constraint(equalTo: mainImageView.trailingAnchor, constant: 2),
+            imagesStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
+            imagesStack.bottomAnchor.constraint(equalTo: labelsStack.topAnchor, constant: -4)
         ])
         
     }
@@ -95,5 +83,7 @@ class AlbumCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+//    f4
     
 }
