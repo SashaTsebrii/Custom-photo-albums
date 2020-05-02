@@ -17,7 +17,8 @@ class PreviewImageView: UIImageView {
         
         clipsToBounds = false
         backgroundColor = .clear
-        contentMode = .scaleAspectFit
+        contentMode = .scaleAspectFill
+        clipsToBounds = true
         translatesAutoresizingMaskIntoConstraints = false
         
     }
