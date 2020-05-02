@@ -43,6 +43,8 @@ class PhotosController: UIViewController {
         return collectionView
     }()
     
+    // MARK: - Lifecycle
+    
     override func loadView() {
         super.loadView()
         
@@ -121,13 +123,44 @@ class PhotosController: UIViewController {
 
     }
     
+    // MARK: - Helper function
+    
+    func saveImageFromCell(byIndexPath indexPath: IndexPath) {
+        // FIXME: Create a function for 'didSelectItemAt' and 'didDeselectItemAt' and remove the duplicate code.
+        guard let cell = collectionView.cellForItem(at: indexPath) as? PhotoCell else { return }
+        
+        let options = PHImageRequestOptions()
+        options.deliveryMode = .highQualityFormat
+        options.isNetworkAccessAllowed = true
+        options.progressHandler = { progress, _, _, _ in
+        }
+        
+        let scale = UIScreen.main.scale
+        let targetSize =  CGSize(width: cell.photoImageView.bounds.width * scale, height: cell.photoImageView.bounds.height * scale)
+        
+        let asset = fetchResult.object(at: indexPath.item)
+        
+        PHImageManager.default().requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: options,
+                                              resultHandler: { image, _ in
+                                                // PhotoKit finished the request.
+                                                
+                                                // If the request succeeded, show the image view.
+                                                guard let image = image else { return }
+                                                
+                                                // Add selected index and image to selected arrays.
+                                                self.selectedImages.append(image)
+        })
+        
+    }
+    
     // MARK: Asset Caching
     
     fileprivate func resetCachedAssets() {
         imageManager.stopCachingImagesForAllAssets()
         previousPreheatRect = .zero
     }
-    /// - Tag: UpdateAssets
+    
+    // UpdateAssets
     fileprivate func updateCachedAssets() {
         // Update only if the view is visible.
         guard isViewLoaded && view.window != nil else { return }
@@ -303,38 +336,4 @@ extension PhotosController: PHPhotoLibraryChangeObserver {
             resetCachedAssets()
         }
     }
-}
-
-extension PhotosController {
-    
-    // MARK: - Helper function
-    
-    func saveImageFromCell(byIndexPath indexPath: IndexPath) {
-        // FIXME: Create a function for 'didSelectItemAt' and 'didDeselectItemAt' and remove the duplicate code.
-        guard let cell = collectionView.cellForItem(at: indexPath) as? PhotoCell else { return }
-        
-        let options = PHImageRequestOptions()
-        options.deliveryMode = .highQualityFormat
-        options.isNetworkAccessAllowed = true
-        options.progressHandler = { progress, _, _, _ in
-        }
-        
-        let scale = UIScreen.main.scale
-        let targetSize =  CGSize(width: cell.photoImageView.bounds.width * scale, height: cell.photoImageView.bounds.height * scale)
-        
-        let asset = fetchResult.object(at: indexPath.item)
-        
-        PHImageManager.default().requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: options,
-                                              resultHandler: { image, _ in
-                                                // PhotoKit finished the request.
-                                                
-                                                // If the request succeeded, show the image view.
-                                                guard let image = image else { return }
-                                                
-                                                // Add selected index and image to selected arrays.
-                                                self.selectedImages.append(image)
-        })
-        
-    }
-    
 }

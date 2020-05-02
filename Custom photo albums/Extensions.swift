@@ -8,8 +8,6 @@
 
 import UIKit
 
-// MARK: -
-
 extension UIColor {
     
     // Color from hex

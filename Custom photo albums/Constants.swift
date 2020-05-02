@@ -10,8 +10,6 @@ import UIKit
 
 struct Constants {
     
-    // MARK: -
-    
     struct Font {
         
         struct Size {

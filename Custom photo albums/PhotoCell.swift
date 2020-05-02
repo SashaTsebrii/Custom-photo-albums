@@ -14,6 +14,8 @@ class PhotoCell: UICollectionViewCell {
     
     static var identifier: String = "PhotoCell"
     
+    var representedAssetIdentifier: String!
+    
     override var isSelected: Bool {
         didSet {
 
@@ -25,8 +27,6 @@ class PhotoCell: UICollectionViewCell {
 
         }
     }
-    
-    var representedAssetIdentifier: String!
     
     var thumbnailImage: UIImage! {
         didSet {

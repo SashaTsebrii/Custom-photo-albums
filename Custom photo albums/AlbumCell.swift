@@ -84,6 +84,15 @@ class AlbumCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    f4
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        mainImageView.image = nil
+        secondImageView.image = nil
+        thirdImageView.image = nil
+        titleLabel.text = nil
+        subtitleLabel.text = nil
+        
+    }
     
 }
