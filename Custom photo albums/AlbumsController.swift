@@ -140,10 +140,12 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
                 collection = smartAlbums.object(at: indexPath.row)
             case .userCollections:
                 collection = userCollections.object(at: indexPath.row)
-            default: return // The default indicates that other segues have already handled the photos section.
+            default:
+                // The default indicates that other segues have already handled the photos section.
+                return
             }
             
-            // configure the view controller with the asset collection
+            // Configure the view controller with the asset collection
             guard let assetCollection = collection as? PHAssetCollection
                 else { fatalError("Expected an asset collection.") }
             photosController.fetchResult = PHAsset.fetchAssets(in: assetCollection, options: nil)
