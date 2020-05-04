@@ -72,7 +72,7 @@ class AlbumsController: UIViewController {
         // FIXME: Set albums.
         
         collectionView.reloadData()
-        
+                
     }
     
     deinit {
@@ -106,15 +106,19 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
         switch Section(rawValue: indexPath.section)! {
         case .allPhotos:
             cell.titleLabel.text = NSLocalizedString("All Photos", comment: "")
+            cell.fetchResult = allPhotos
             return cell
         case .smartAlbums:
             let collection = smartAlbums.object(at: indexPath.row)
             cell.titleLabel.text = collection.localizedTitle
+            cell.fetchResult = PHAsset.fetchAssets(in: collection, options: nil)
             return cell
-            
         case .userCollections:
             let collection = userCollections.object(at: indexPath.row)
             cell.titleLabel.text = collection.localizedTitle
+            guard let assetCollection = collection as? PHAssetCollection
+                else { fatalError("Expected an asset collection.") }
+            cell.fetchResult = PHAsset.fetchAssets(in: assetCollection, options: nil)
             return cell
         }
         
@@ -142,6 +146,7 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
                 collection = userCollections.object(at: indexPath.row)
             default:
                 // The default indicates that other segues have already handled the photos section.
+                
                 return
             }
             
@@ -149,7 +154,6 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
             guard let assetCollection = collection as? PHAssetCollection
                 else { fatalError("Expected an asset collection.") }
             photosController.fetchResult = PHAsset.fetchAssets(in: assetCollection, options: nil)
-            photosController.assetCollection = assetCollection
         }
         
         navigationController?.pushViewController(photosController, animated: true)
@@ -180,7 +184,7 @@ extension AlbumsController: PHPhotoLibraryChangeObserver {
     
     // MARK: PHPhotoLibraryChangeObserver
     
-    /// - Tag: RespondToChanges
+    // Respond to changes
     func photoLibraryDidChange(_ changeInstance: PHChange) {
         
         // Change notifications may originate from a background queue. Re-dispatch to the main queue before acting on the change, so you can update the UI.

@@ -10,6 +10,8 @@ import UIKit
 
 struct Constants {
     
+    static let kPreviewImage = "kPreviewImage"
+    
     struct Font {
         
         struct Size {

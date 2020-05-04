@@ -15,7 +15,6 @@ class PhotosController: UIViewController {
     // MARK: Variables
     
     var fetchResult: PHFetchResult<PHAsset>!
-    var assetCollection: PHAssetCollection!
     var availableWidth: CGFloat = 0
     
     var collectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -43,7 +42,7 @@ class PhotosController: UIViewController {
         return collectionView
     }()
     
-    // MARK: - Lifecycle
+    // MARK: Lifecycle
     
     override func loadView() {
         super.loadView()
@@ -123,10 +122,10 @@ class PhotosController: UIViewController {
 
     }
     
-    // MARK: - Helper function
+    // MARK: Helper function
     
     func saveImageFromCell(byIndexPath indexPath: IndexPath) {
-        // FIXME: Create a function for 'didSelectItemAt' and 'didDeselectItemAt' and remove the duplicate code.
+        
         guard let cell = collectionView.cellForItem(at: indexPath) as? PhotoCell else { return }
         
         let options = PHImageRequestOptions()
@@ -162,6 +161,7 @@ class PhotosController: UIViewController {
     
     // UpdateAssets
     fileprivate func updateCachedAssets() {
+        
         // Update only if the view is visible.
         guard isViewLoaded && view.window != nil else { return }
         
@@ -183,12 +183,11 @@ class PhotosController: UIViewController {
             .map { indexPath in fetchResult.object(at: indexPath.item) }
         
         // Update the assets the PHCachingImageManager is caching.
-        imageManager.startCachingImages(for: addedAssets,
-                                        targetSize: thumbnailSize, contentMode: .aspectFill, options: nil)
-        imageManager.stopCachingImages(for: removedAssets,
-                                       targetSize: thumbnailSize, contentMode: .aspectFill, options: nil)
+        imageManager.startCachingImages(for: addedAssets, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil)
+        imageManager.stopCachingImages(for: removedAssets, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil)
         // Store the computed rectangle for future comparison.
         previousPreheatRect = preheatRect
+        
     }
     
     fileprivate func differencesBetweenRects(_ old: CGRect, _ new: CGRect) -> (added: [CGRect], removed: [CGRect]) {
@@ -231,13 +230,7 @@ extension PhotosController: UICollectionViewDataSource, UICollectionViewDelegate
         
         let asset = fetchResult.object(at: indexPath.item)
         // Dequeue a GridViewCell.
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.identifier, for: indexPath) as? PhotoCell
-            else { fatalError("Unexpected cell in collection view") }
-        
-        // Add a badge to the cell if the PHAsset represents a Live Photo.
-        if asset.mediaSubtypes.contains(.photoLive) {
-            cell.livePhotoBadgeImage = PHLivePhotoView.livePhotoBadgeImage(options: .overContent)
-        }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.identifier, for: indexPath) as? PhotoCell else { fatalError("Unexpected cell in collection view") }
         
         // Request an image for the asset from the PHCachingImageManager.
         cell.representedAssetIdentifier = asset.localIdentifier

@@ -34,16 +34,9 @@ class PhotoCell: UICollectionViewCell {
         }
     }
     
-    var livePhotoBadgeImage: UIImage! {
-        didSet {
-            livePhotoBadgeImageView.image = livePhotoBadgeImage
-        }
-    }
-    
     // MARK: Properties
     
     var photoImageView = PreviewImageView(frame: .zero)
-    var livePhotoBadgeImageView = UIImageView(frame: .zero)
     
     var overlayView: UIView = {
         let view = UIView(frame: .zero)
@@ -65,14 +58,6 @@ class PhotoCell: UICollectionViewCell {
             photoImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 2),
             photoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -2),
             photoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2)
-        ])
-        
-        contentView.addSubview(livePhotoBadgeImageView)
-        NSLayoutConstraint.activate([
-            livePhotoBadgeImageView.widthAnchor.constraint(equalToConstant: 16),
-            livePhotoBadgeImageView.heightAnchor.constraint(equalTo: livePhotoBadgeImageView.widthAnchor),
-            livePhotoBadgeImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            livePhotoBadgeImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
         ])
         
         photoImageView.addSubview(overlayView)
@@ -101,7 +86,6 @@ class PhotoCell: UICollectionViewCell {
         super.prepareForReuse()
         
         photoImageView.image = nil
-        livePhotoBadgeImageView.image = nil
         
     }
     
