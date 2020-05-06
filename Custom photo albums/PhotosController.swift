@@ -87,7 +87,12 @@ class PhotosController: UIViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        let width = view.bounds.inset(by: view.safeAreaInsets).width
+        var width: CGFloat = 0.0
+        if #available(iOS 11.0, *) {
+            width = view.bounds.inset(by: view.safeAreaInsets).width
+        } else {
+            width = view.bounds.width
+        }
         // Adjust the item size if the available width has changed.
         if availableWidth != width {
             availableWidth = width

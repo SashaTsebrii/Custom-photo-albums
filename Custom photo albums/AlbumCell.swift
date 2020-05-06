@@ -149,7 +149,11 @@ class AlbumCell: UICollectionViewCell {
         // Sort the images by descending creation date and fetch the first 3
         let fetchOptions = PHFetchOptions()
         fetchOptions.sortDescriptors = [NSSortDescriptor(key:"creationDate", ascending: false)]
-        fetchOptions.fetchLimit = 3
+        if #available(iOS 9, *) {
+            fetchOptions.fetchLimit = 3
+        } else {
+            fetchOptions.fetchLimit = 3
+        }
 
         // Fetch the image assets
 //        let fetchResult: PHFetchResult = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: fetchOptions)
