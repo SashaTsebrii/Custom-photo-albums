@@ -27,13 +27,21 @@ class AlbumCell: UICollectionViewCell {
 
     var titleLabel: BaseLabel = {
         let label = BaseLabel(frame: .zero)
-        label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        if #available(iOS 8.2, *) {
+            label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        } else {
+            label.font = UIFont.boldSystemFont(ofSize: 16)
+        }
         return label
     }()
     
     var subtitleLabel: BaseLabel = {
         let label = BaseLabel(frame: .zero)
-        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        if #available(iOS 8.2, *) {
+            label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        } else {
+            label.font = UIFont.systemFont(ofSize: 12)
+        }
         return label
     }()
     
