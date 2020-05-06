@@ -53,28 +53,49 @@ class PhotoCell: UICollectionViewCell {
         super.init(frame: frame)
         
         contentView.addSubview(photoImageView)
-        NSLayoutConstraint.activate([
-            photoImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2),
-            photoImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 2),
-            photoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -2),
-            photoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2)
-        ])
+        if #available(iOS 9, *) {
+            NSLayoutConstraint.activate([
+                photoImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2),
+                photoImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 2),
+                photoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -2),
+                photoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2)
+            ])
+        } else {
+            NSLayoutConstraint(item: photoImageView, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 0.0, constant: 2.0).isActive = true
+            NSLayoutConstraint(item: photoImageView, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, multiplier: 0.0, constant: 2.0).isActive = true
+            NSLayoutConstraint(item: photoImageView, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing, multiplier: 0.0, constant: -2.0).isActive = true
+            NSLayoutConstraint(item: photoImageView, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 0.0, constant: -2.0).isActive = true
+        }
         
         photoImageView.addSubview(overlayView)
-        NSLayoutConstraint.activate([
-            overlayView.topAnchor.constraint(equalTo: photoImageView.topAnchor),
-            overlayView.leadingAnchor.constraint(equalTo: photoImageView.leadingAnchor),
-            overlayView.trailingAnchor.constraint(equalTo: photoImageView.trailingAnchor),
-            overlayView.bottomAnchor.constraint(equalTo: photoImageView.bottomAnchor)
-        ])
+        if #available(iOS 9, *) {
+            NSLayoutConstraint.activate([
+                overlayView.topAnchor.constraint(equalTo: photoImageView.topAnchor),
+                overlayView.leadingAnchor.constraint(equalTo: photoImageView.leadingAnchor),
+                overlayView.trailingAnchor.constraint(equalTo: photoImageView.trailingAnchor),
+                overlayView.bottomAnchor.constraint(equalTo: photoImageView.bottomAnchor)
+            ])
+        } else {
+            NSLayoutConstraint(item: overlayView, attribute: .top, relatedBy: .equal, toItem: photoImageView, attribute: .top, multiplier: 0.0, constant: 0.0).isActive = true
+            NSLayoutConstraint(item: overlayView, attribute: .leading, relatedBy: .equal, toItem: photoImageView, attribute: .leading, multiplier: 0.0, constant: 0.0).isActive = true
+            NSLayoutConstraint(item: overlayView, attribute: .trailing, relatedBy: .equal, toItem: photoImageView, attribute: .trailing, multiplier: 0.0, constant: 0.0).isActive = true
+            NSLayoutConstraint(item: overlayView, attribute: .bottom, relatedBy: .equal, toItem: photoImageView, attribute: .bottom, multiplier: 0.0, constant: 0.0).isActive = true
+        }
         
         overlayView.addSubview(checkView)
-        NSLayoutConstraint.activate([
-            checkView.widthAnchor.constraint(equalToConstant: 24),
-            checkView.heightAnchor.constraint(equalTo: checkView.widthAnchor),
-            checkView.trailingAnchor.constraint(equalTo: overlayView.trailingAnchor, constant: -4),
-            checkView.bottomAnchor.constraint(equalTo: overlayView.bottomAnchor, constant: -4)
-        ])
+        if #available(iOS 9, *) {
+            NSLayoutConstraint.activate([
+                checkView.widthAnchor.constraint(equalToConstant: 24),
+                checkView.heightAnchor.constraint(equalTo: checkView.widthAnchor),
+                checkView.trailingAnchor.constraint(equalTo: overlayView.trailingAnchor, constant: -4),
+                checkView.bottomAnchor.constraint(equalTo: overlayView.bottomAnchor, constant: -4)
+            ])
+        } else {
+            NSLayoutConstraint(item: checkView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 24.0).isActive = true
+            NSLayoutConstraint(item: checkView, attribute: .height, relatedBy: .equal, toItem: checkView, attribute: .width, multiplier: 0.0, constant: 0.0).isActive = true
+            NSLayoutConstraint(item: checkView, attribute: .trailing, relatedBy: .equal, toItem: overlayView, attribute: .trailing, multiplier: 0.0, constant: -4.0).isActive = true
+            NSLayoutConstraint(item: checkView, attribute: .bottom, relatedBy: .equal, toItem: overlayView, attribute: .bottom, multiplier: 0.0, constant: -4.0).isActive = true
+        }
         
     }
 

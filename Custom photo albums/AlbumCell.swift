@@ -47,45 +47,76 @@ class AlbumCell: UICollectionViewCell {
         super.init(frame: frame)
         
         contentView.addSubview(mainImageView)
-        NSLayoutConstraint.activate([
-            mainImageView.widthAnchor.constraint(equalToConstant: frame.width * 0.62),
-            mainImageView.heightAnchor.constraint(equalTo: mainImageView.widthAnchor),
-            mainImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
-            mainImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4)
-        ])
+        if #available(iOS 9, *) {
+            NSLayoutConstraint.activate([
+                mainImageView.widthAnchor.constraint(equalToConstant: frame.width * 0.62),
+                mainImageView.heightAnchor.constraint(equalTo: mainImageView.widthAnchor),
+                mainImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
+                mainImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4)
+            ])
+        } else {
+            NSLayoutConstraint(item: mainImageView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: frame.width * 0.62).isActive = true
+            NSLayoutConstraint(item: mainImageView, attribute: .height, relatedBy: .equal, toItem: mainImageView, attribute: .width, multiplier: 0.0, constant: 0.0).isActive = true
+            NSLayoutConstraint(item: mainImageView, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 0.0, constant: 4.0).isActive = true
+            NSLayoutConstraint(item: mainImageView, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, multiplier: 0.0, constant: 4.0).isActive = true
+        }
         
-        let labelsStack = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
-        labelsStack.axis = .vertical
-        labelsStack.distribution = .equalCentering
-        labelsStack.alignment = .leading
-        labelsStack.spacing = 4
-        labelsStack.translatesAutoresizingMaskIntoConstraints = false
-        
-        contentView.addSubview(labelsStack)
-        NSLayoutConstraint.activate([
-            titleLabel.heightAnchor.constraint(equalToConstant: 16),
-            subtitleLabel.heightAnchor.constraint(equalToConstant: 12),
+        if #available(iOS 9, *) {
+            let labelsStack = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
+            labelsStack.axis = .vertical
+            labelsStack.distribution = .equalCentering
+            labelsStack.alignment = .leading
+            labelsStack.spacing = 4
+            labelsStack.translatesAutoresizingMaskIntoConstraints = false
             
-            labelsStack.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: 4),
-            labelsStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
-            labelsStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
-            labelsStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4)
-        ])
-        
-        let imagesStack = UIStackView(arrangedSubviews: [secondImageView, thirdImageView])
-        imagesStack.axis = .vertical
-        imagesStack.distribution = .fillEqually
-        imagesStack.alignment = .fill
-        imagesStack.spacing = 2
-        imagesStack.translatesAutoresizingMaskIntoConstraints = false
-        
-        contentView.addSubview(imagesStack)
-        NSLayoutConstraint.activate([
-            imagesStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
-            imagesStack.leadingAnchor.constraint(equalTo: mainImageView.trailingAnchor, constant: 2),
-            imagesStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
-            imagesStack.bottomAnchor.constraint(equalTo: labelsStack.topAnchor, constant: -4)
-        ])
+            contentView.addSubview(labelsStack)
+            NSLayoutConstraint.activate([
+                titleLabel.heightAnchor.constraint(equalToConstant: 16),
+                subtitleLabel.heightAnchor.constraint(equalToConstant: 12),
+                
+                labelsStack.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: 4),
+                labelsStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
+                labelsStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
+                labelsStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4)
+            ])
+            
+            let imagesStack = UIStackView(arrangedSubviews: [secondImageView, thirdImageView])
+            imagesStack.axis = .vertical
+            imagesStack.distribution = .fillEqually
+            imagesStack.alignment = .fill
+            imagesStack.spacing = 2
+            imagesStack.translatesAutoresizingMaskIntoConstraints = false
+            
+            contentView.addSubview(imagesStack)
+            NSLayoutConstraint.activate([
+                imagesStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
+                imagesStack.leadingAnchor.constraint(equalTo: mainImageView.trailingAnchor, constant: 2),
+                imagesStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
+                imagesStack.bottomAnchor.constraint(equalTo: labelsStack.topAnchor, constant: -4)
+            ])
+        } else {
+            contentView.addSubview(secondImageView)
+            NSLayoutConstraint(item: secondImageView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: (mainImageView.bounds.height / 2) - 2).isActive = true
+            NSLayoutConstraint(item: secondImageView, attribute: .top, relatedBy: .equal, toItem: mainImageView, attribute: .top, multiplier: 0.0, constant: 0.0).isActive = true
+            NSLayoutConstraint(item: secondImageView, attribute: .leading, relatedBy: .equal, toItem: mainImageView, attribute: .trailing, multiplier: 0.0, constant: 2.0).isActive = true
+            NSLayoutConstraint(item: secondImageView, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing, multiplier: 0.0, constant: -4.0).isActive = true
+            
+            contentView.addSubview(thirdImageView)
+            NSLayoutConstraint(item: thirdImageView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: (mainImageView.bounds.height / 2) - 2).isActive = true
+            NSLayoutConstraint(item: thirdImageView, attribute: .leading, relatedBy: .equal, toItem: mainImageView, attribute: .trailing, multiplier: 0.0, constant: 2.0).isActive = true
+            NSLayoutConstraint(item: thirdImageView, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing, multiplier: 0.0, constant: -4.0).isActive = true
+            NSLayoutConstraint(item: thirdImageView, attribute: .bottom, relatedBy: .equal, toItem: mainImageView, attribute: .bottom, multiplier: 0.0, constant: 0.0).isActive = true
+            
+            contentView.addSubview(titleLabel)
+            NSLayoutConstraint(item: titleLabel, attribute: .top, relatedBy: .equal, toItem: mainImageView, attribute: .bottom, multiplier: 0.0, constant: 4.0).isActive = true
+            NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, multiplier: 0.0, constant: 4.0).isActive = true
+            NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing, multiplier: 0.0, constant: -4.0).isActive = true
+            
+            contentView.addSubview(subtitleLabel)
+            NSLayoutConstraint(item: subtitleLabel, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, multiplier: 0.0, constant: 4.0).isActive = true
+            NSLayoutConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing, multiplier: 0.0, constant: -4.0).isActive = true
+            NSLayoutConstraint(item: subtitleLabel, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 0.0, constant: -4.0).isActive = true
+        }
         
     }
 
