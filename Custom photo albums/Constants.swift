@@ -12,15 +12,10 @@ struct Constants {
     
     static let kPreviewImage = "kPreviewImage"
     
-    struct Font {
+    struct kUserDefaults {
         
-        struct Size {
-
-        }
-        
-        struct Weight {
-
-        }
+        static let kSelectedIndexes = "kSelectedIndexes"
+        static let kAssetUrl = "kAssetUrl"
         
     }
     

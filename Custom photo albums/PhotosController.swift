@@ -25,8 +25,6 @@ class PhotosController: UIViewController {
     
     // This is selected cell Index array
     var selectedIndexes = [IndexPath]()
-    // This is selected cell data array
-    var selectedImages = [UIImage]()
     
     // MARK: Properties
     
@@ -126,41 +124,37 @@ class PhotosController: UIViewController {
     @objc func importBarButtonTapped(_ sender: UIBarButtonItem) {
         print("👆 IMPORT BAR BUTTON")
         
-        print(selectedIndexes)
-        
-        for selectedIndex in selectedIndexes {
-            saveImageFromCell(byIndexPath: selectedIndex)
+        if selectedIndexes.count > 0 {
+            
+            var indexes = [Int]()
+            
+            for index in selectedIndexes {
+                indexes.append(index.row)
+            }
+            
+            let url = ""
+            
+            let userDefaults = UserDefaults.standard
+            userDefaults.set(indexes, forKey: Constants.kUserDefaults.kSelectedIndexes)
+            userDefaults.set(url, forKey: Constants.kUserDefaults.kAssetUrl)
+            userDefaults.synchronize()
+            
+            guard let viewControllers = self.navigationController?.viewControllers else { return }
+            for firstViewController in viewControllers {
+                if firstViewController is LoadController {
+                    self.navigationController?.popToViewController(firstViewController, animated: true)
+                    break
+                }
+            }
+            
+        } else {
+            
+            let alertControl = UIAlertController(title: "No selected images", message: "Please select an image to import it.", preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "ok", style: .cancel, handler: nil)
+            alertControl.addAction(defaultAction)
+            present(alertControl, animated: true, completion: nil)
+            
         }
-
-    }
-    
-    // MARK: Helper function
-    
-    func saveImageFromCell(byIndexPath indexPath: IndexPath) {
-        
-        guard let cell = collectionView.cellForItem(at: indexPath) as? PhotoCell else { return }
-        
-        let options = PHImageRequestOptions()
-        options.deliveryMode = .highQualityFormat
-        options.isNetworkAccessAllowed = true
-        options.progressHandler = { progress, _, _, _ in
-        }
-        
-        let scale = UIScreen.main.scale
-        let targetSize =  CGSize(width: cell.photoImageView.bounds.width * scale, height: cell.photoImageView.bounds.height * scale)
-        
-        let asset = fetchResult.object(at: indexPath.item)
-        
-        PHImageManager.default().requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: options,
-                                              resultHandler: { image, _ in
-                                                // PhotoKit finished the request.
-                                                
-                                                // If the request succeeded, show the image view.
-                                                guard let image = image else { return }
-                                                
-                                                // Add selected index and image to selected arrays.
-                                                self.selectedImages.append(image)
-        })
         
     }
     
