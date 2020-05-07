@@ -14,8 +14,7 @@ struct Constants {
     
     struct kUserDefaults {
         
-        static let kSelectedIndexes = "kSelectedIndexes"
-        static let kAssetUrl = "kAssetUrl"
+        static let kStringUrls = "kStringUrls"
         
     }
     

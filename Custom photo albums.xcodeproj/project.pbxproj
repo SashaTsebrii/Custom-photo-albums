@@ -15,7 +15,7 @@
 		4746A5F52457359F005766C0 /* AlbumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4746A5F42457359F005766C0 /* AlbumCell.swift */; };
 		4746A5F724573732005766C0 /* PhotosController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4746A5F624573732005766C0 /* PhotosController.swift */; };
 		4746A5F92457374A005766C0 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4746A5F82457374A005766C0 /* PhotoCell.swift */; };
-		47E0E8D62463774100218169 /* LoadController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E0E8D52463774100218169 /* LoadController.swift */; };
+		47E0E8D62463774100218169 /* AddController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E0E8D52463774100218169 /* AddController.swift */; };
 		47E0E8D8246380EE00218169 /* CircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E0E8D7246380EE00218169 /* CircleButton.swift */; };
 		47F8ED6F2454798B00C003E4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F8ED6E2454798B00C003E4 /* AppDelegate.swift */; };
 		47F8ED782454798E00C003E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47F8ED772454798E00C003E4 /* Assets.xcassets */; };
@@ -32,7 +32,7 @@
 		4746A5F42457359F005766C0 /* AlbumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCell.swift; sourceTree = "<group>"; };
 		4746A5F624573732005766C0 /* PhotosController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosController.swift; sourceTree = "<group>"; };
 		4746A5F82457374A005766C0 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
-		47E0E8D52463774100218169 /* LoadController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadController.swift; sourceTree = "<group>"; };
+		47E0E8D52463774100218169 /* AddController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddController.swift; sourceTree = "<group>"; };
 		47E0E8D7246380EE00218169 /* CircleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleButton.swift; sourceTree = "<group>"; };
 		47F8ED6B2454798B00C003E4 /* Custom photo albums.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Custom photo albums.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47F8ED6E2454798B00C003E4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -79,7 +79,7 @@
 				470F2C6224579946001516FA /* BaseLabel.swift */,
 				47090722245B77440068B900 /* CheckView.swift */,
 				47E0E8D7246380EE00218169 /* CircleButton.swift */,
-				47E0E8D52463774100218169 /* LoadController.swift */,
+				47E0E8D52463774100218169 /* AddController.swift */,
 				47F8ED8224547AF700C003E4 /* AlbumsController.swift */,
 				4746A5F42457359F005766C0 /* AlbumCell.swift */,
 				4746A5F624573732005766C0 /* PhotosController.swift */,
@@ -172,7 +172,7 @@
 				470F2C61245787F9001516FA /* PreviewImageView.swift in Sources */,
 				4746A5F124573419005766C0 /* Constants.swift in Sources */,
 				470F2C6324579947001516FA /* BaseLabel.swift in Sources */,
-				47E0E8D62463774100218169 /* LoadController.swift in Sources */,
+				47E0E8D62463774100218169 /* AddController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

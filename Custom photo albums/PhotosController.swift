@@ -26,6 +26,8 @@ class PhotosController: UIViewController {
     // This is selected cell Index array
     var selectedIndexes = [IndexPath]()
     
+    var assetUrls = [String]()
+    
     // MARK: Properties
     
     lazy var collectionView: UICollectionView = {
@@ -126,26 +128,37 @@ class PhotosController: UIViewController {
         
         if selectedIndexes.count > 0 {
             
-            var indexes = [Int]()
-            
-            for index in selectedIndexes {
-                indexes.append(index.row)
-            }
-            
-            let url = ""
-            
-            let userDefaults = UserDefaults.standard
-            userDefaults.set(indexes, forKey: Constants.kUserDefaults.kSelectedIndexes)
-            userDefaults.set(url, forKey: Constants.kUserDefaults.kAssetUrl)
-            userDefaults.synchronize()
-            
-            guard let viewControllers = self.navigationController?.viewControllers else { return }
-            for firstViewController in viewControllers {
-                if firstViewController is LoadController {
-                    self.navigationController?.popToViewController(firstViewController, animated: true)
-                    break
+            let dispatchGroup = DispatchGroup()
+            for selectedIndex in selectedIndexes {
+                // Enter the dispatch group
+                dispatchGroup.enter()
+                let asset = fetchResult.object(at: selectedIndex.item)
+                asset.getURL { (url) in
+                    if let url = url {
+                        print(url)
+                        let path: String = url.path
+                        self.assetUrls.append(path)
+                        // Exit dispatch group
+                        dispatchGroup.leave()
+                    }
                 }
             }
+            
+            dispatchGroup.notify(queue: DispatchQueue.main, execute: {
+                
+                let userDefaults = UserDefaults.standard
+                userDefaults.set(self.assetUrls, forKey: Constants.kUserDefaults.kStringUrls)
+                userDefaults.synchronize()
+                                
+                guard let viewControllers = self.navigationController?.viewControllers else { return }
+                for firstViewController in viewControllers {
+                    if firstViewController is AddController {
+                        self.navigationController?.popToViewController(firstViewController, animated: true)
+                        break
+                    }
+                }
+                
+            })
             
         } else {
             
