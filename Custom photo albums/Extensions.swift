@@ -25,6 +25,7 @@ extension UIColor {
     struct Design {
         static let background = UIColor(netHex: 0xF4F4F4)
         static let navigationBar = UIColor(netHex: 0x727F92)
+        static let batton = UIColor(netHex: 0x8E9BAE)
     }
     
     struct Font {
