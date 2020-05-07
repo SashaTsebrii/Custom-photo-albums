@@ -13,7 +13,7 @@ class LoadController: UIViewController {
     
     // MARK: Variables
     
-    
+    var imageIndexes: [Int]?
     
     // MARK: Properties
     
@@ -21,6 +21,14 @@ class LoadController: UIViewController {
         let button = CircleButton(frame: .zero)
         button.addTarget(self, action: #selector(importButtonTapped(_:)), for: .touchUpInside)
         return button
+    }()
+    
+    let previewImageView: UIImageView = {
+        let imageView = UIImageView(frame: .zero)
+        imageView.contentMode = .scaleAspectFit
+        imageView.backgroundColor = .lightGray
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
     
     // MARK: Lifecycle
@@ -47,10 +55,32 @@ class LoadController: UIViewController {
             NSLayoutConstraint(item: importButton, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 0.0, constant: -16.0).isActive = true
         }
         
+        view.addSubview(previewImageView)
+        if #available(iOS 11, *) {
+            NSLayoutConstraint.activate([
+                previewImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+                previewImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+                previewImageView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+                previewImageView.bottomAnchor.constraint(equalTo: importButton.topAnchor, constant: -16)
+            ])
+        } else {
+            NSLayoutConstraint(item: previewImageView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .notAnAttribute, multiplier: 1.0, constant: 16.0).isActive = true
+            NSLayoutConstraint(item: previewImageView, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1.0, constant: 16.0).isActive = true
+            NSLayoutConstraint(item: previewImageView, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 0.0, constant: -16.0).isActive = true
+            NSLayoutConstraint(item: previewImageView, attribute: .bottom, relatedBy: .equal, toItem: importButton, attribute: .top, multiplier: 0.0, constant: -16.0).isActive = true
+        }
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         
         
