@@ -68,17 +68,17 @@ class AlbumsController: UIViewController {
         
         navigationItem.title = "Albums"
         
-        // Create a PHFetchResult object for each section in the table view.
+        // Create a PHFetchResult object for each section in the collection view.
         let allPhotosOptions = PHFetchOptions()
-        allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
-        smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .albumRegular, options: nil)
-        userCollections = PHCollectionList.fetchTopLevelUserCollections(with: nil)
+        let smartAlbumsOptions = PHFetchOptions()
+        
+        smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .albumRegular, options: smartAlbumsOptions)
+        let userCollectionOptions = PHFetchOptions()
+
+        userCollections = PHCollectionList.fetchTopLevelUserCollections(with: userCollectionOptions)
         PHPhotoLibrary.shared().register(self)
-        
-        // FIXME: Set albums.
-        
-        collectionView.reloadData()
                 
     }
     

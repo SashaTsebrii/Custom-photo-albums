@@ -79,7 +79,7 @@ class PhotosController: UIViewController {
         // Reaching this point without a segue means that this AssetGridViewController became visible at app launch. As such, match the behavior of the segue from the default "All Photos" view.
         if fetchResult == nil {
             let allPhotosOptions = PHFetchOptions()
-            allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+            allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
             fetchResult = PHAsset.fetchAssets(with: allPhotosOptions)
         }
         
@@ -106,9 +106,17 @@ class PhotosController: UIViewController {
         super.viewWillAppear(animated)
         
         // Determine the size of the thumbnails to request from the PHCachingImageManager.
+        /*
         let scale = UIScreen.main.scale
         let cellSize = collectionViewFlowLayout.itemSize
         thumbnailSize = CGSize(width: cellSize.width * scale, height: cellSize.height * scale)
+        */
+        
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            thumbnailSize =  CGSize(width: 200, height: 200)
+        } else if UIDevice.current.userInterfaceIdiom == .pad {
+            thumbnailSize =  CGSize(width: 300, height: 300)
+        }
         
     }
     

@@ -146,21 +146,10 @@ class AlbumCell: UICollectionViewCell {
     // MARK: Helper functions
     
     func fetchPhotos() {
-        // Sort the images by descending creation date and fetch the first 3
-//        let fetchOptions = PHFetchOptions()
-//        fetchOptions.sortDescriptors = [NSSortDescriptor(key:"creationDate", ascending: false)]
-//        if #available(iOS 9, *) {
-//            fetchOptions.fetchLimit = 3
-//        } else {
-//            fetchOptions.fetchLimit = 3
-//        }
-
-        // Fetch the image assets
-//        let fetchResult: PHFetchResult = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: fetchOptions)
-        
         // If the fetch result isn't empty, proceed with the image request
         if fetchResult.count > 0 {
-            let totalImageCountNeeded = 3 // <-- The number of images to fetch
+            // The number of images to fetch
+            let totalImageCountNeeded = 3
             fetchPhotoAtIndex(0, totalImageCountNeeded, fetchResult)
         }
     }
@@ -173,7 +162,13 @@ class AlbumCell: UICollectionViewCell {
         requestOptions.isSynchronous = true
 
         // Perform the image request
-        let targetSize =  CGSize(width: 100, height: 100)
+        var targetSize =  CGSize.zero
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            targetSize =  CGSize(width: 200, height: 200)
+        } else if UIDevice.current.userInterfaceIdiom == .pad {
+            targetSize =  CGSize(width: 300, height: 300)
+        }
+        
         PHImageManager.default().requestImage(for: fetchResult.object(at: index) as PHAsset, targetSize: targetSize, contentMode: PHImageContentMode.aspectFill, options: requestOptions, resultHandler: { (image, _) in
             if let image = image {
                 // Add the returned image to your array
@@ -182,7 +177,9 @@ class AlbumCell: UICollectionViewCell {
             // If you haven't already reached the first index of the fetch result and if you haven't already stored all of the images you need, perform the fetch request again with an incremented index
             if index + 1 < fetchResult.count && self.images.count < totalImageCountNeeded {
                 self.fetchPhotoAtIndex(index + 1, totalImageCountNeeded, fetchResult)
+                
             } else {
+                
                 DispatchQueue.main.async {
                     if self.images.indices.contains(0) {
                         self.mainImageView.image = self.images[0]
@@ -194,10 +191,10 @@ class AlbumCell: UICollectionViewCell {
                         self.thirdImageView.image = self.images[2]
                     }
                 }
-                // Else you have completed creating your array
-                print("Completed array: \(self.images)")
+                
             }
         })
+        
     }
     
 }
