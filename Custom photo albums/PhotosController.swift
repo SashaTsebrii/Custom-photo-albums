@@ -158,12 +158,26 @@ class PhotosController: UIViewController {
                 userDefaults.set(self.assetUrls, forKey: Constants.kUserDefaults.kStringUrls)
                 userDefaults.synchronize()
                                 
-                guard let viewControllers = self.navigationController?.viewControllers else { return }
-                for firstViewController in viewControllers {
-                    if firstViewController is AddController {
-                        self.navigationController?.popToViewController(firstViewController, animated: true)
-                        break
+                if UIDevice.current.userInterfaceIdiom == .phone {
+                    guard let viewControllers = self.navigationController?.viewControllers else { return }
+                    for firstViewController in viewControllers {
+                        if firstViewController is AddController {
+                            self.navigationController?.popToViewController(firstViewController, animated: true)
+                            break
+                        }
                     }
+                } else if UIDevice.current.userInterfaceIdiom == .pad {
+                    guard let viewControllers = self.navigationController?.viewControllers else { return }
+                    for firstViewController in viewControllers {
+                        if firstViewController is AddController {
+                            self.navigationController?.popToViewController(firstViewController, animated: true)
+                            break
+                        }
+                    }
+                    // TODO:
+                    /*
+                    self.dismiss(animated: true, completion: nil)
+                    */
                 }
                 
             })
