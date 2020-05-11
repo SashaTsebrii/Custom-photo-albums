@@ -93,11 +93,18 @@ class AddController: UIViewController {
         print("👆 ADD BAR BUTTON")
         
         let albumsController = AlbumsController()
+        
         albumsController.delegate = self
         if UIDevice.current.userInterfaceIdiom == .phone {
             navigationController?.pushViewController(albumsController, animated: true)
         } else if UIDevice.current.userInterfaceIdiom == .pad {
-            navigationController?.present(UINavigationController(rootViewController: albumsController), animated: true, completion: nil)
+            
+            let navigationController = UINavigationController(rootViewController: albumsController)
+            navigationController.modalPresentationStyle = .formSheet
+            self.present(navigationController, animated: true, completion: nil)
+            let size = CGSize(width: view.bounds.width * 0.7, height: view.bounds.height * 0.7)
+            navigationController.preferredContentSize = CGSize(width: size.width, height: size.height)
+            
         }
         
     }
