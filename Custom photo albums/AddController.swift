@@ -13,7 +13,6 @@ class AddController: UIViewController {
     
     // MARK: Variables
     
-    let userDefaults = UserDefaults.standard
     var selectedImages = [UIImage]()
     
     // MARK: Properties
@@ -76,40 +75,15 @@ class AddController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        userDefaults.removeObject(forKey: Constants.kUserDefaults.kStringUrls)
-        userDefaults.synchronize()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if let stringUrls = userDefaults.array(forKey: Constants.kUserDefaults.kStringUrls) {
-            print(stringUrls)
-            
-            if stringUrls.count > 0 {
-                for stringUrl in stringUrls as! [String] {
-                    let correctStringUrl = "file://" + stringUrl
-                    guard let url = URL(string: correctStringUrl) else { return }
-                    do {
-                        let imageData = try Data(contentsOf: url)
-                        previewImageView.image = UIImage(data: imageData)
-                    } catch {
-                        print("Error loading image : \(error)")
-                    }
-                }
-                
-            }
-            
-        }
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        userDefaults.removeObject(forKey: Constants.kUserDefaults.kStringUrls)
-        userDefaults.synchronize()
         
     }
     
@@ -119,6 +93,7 @@ class AddController: UIViewController {
         print("👆 ADD BAR BUTTON")
         
         let albumsController = AlbumsController()
+        albumsController.delegate = self
         if UIDevice.current.userInterfaceIdiom == .phone {
             navigationController?.pushViewController(albumsController, animated: true)
         } else if UIDevice.current.userInterfaceIdiom == .pad {
@@ -128,6 +103,28 @@ class AddController: UIViewController {
             navigationController?.modalPresentationStyle = .custom
             navigationController?.present(UINavigationController(rootViewController: albumsController), animated: true, completion: nil)
             */
+        }
+        
+    }
+    
+}
+
+extension AddController: AlbumsControllerDelegate {
+    
+    // MARK: AlbumsControllerDelegate
+    
+    func getPhoto(urlStrings: [String]?) {
+        if let urlStrings = urlStrings {
+            for urlString in urlStrings {
+                let correctStringUrl = "file://" + urlString
+                guard let url = URL(string: correctStringUrl) else { return }
+                do {
+                    let imageData = try Data(contentsOf: url)
+                    previewImageView.image = UIImage(data: imageData)
+                } catch {
+                    print("Error loading image : \(error)")
+                }
+            }
         }
         
     }

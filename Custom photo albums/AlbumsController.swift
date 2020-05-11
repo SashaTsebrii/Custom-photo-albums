@@ -9,9 +9,21 @@
 import UIKit
 import Photos
 
+protocol AlbumsControllerDelegate: class {
+    func getPhoto(urlStrings: [String]?)
+}
+
 class AlbumsController: UIViewController {
     
     // MARK: Variables
+    
+    weak var delegate: AlbumsControllerDelegate?
+    
+    var urlStrings: [String]? {
+        didSet {
+            delegate?.getPhoto(urlStrings: urlStrings)
+        }
+    }
     
     enum Section: Int {
         case allPhotos = 0
@@ -136,6 +148,7 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let photosController = PhotosController()
+        photosController.albumsController = self
         
         let cell = collectionView.cellForItem(at: indexPath) as! AlbumCell
         photosController.title = cell.titleLabel.text

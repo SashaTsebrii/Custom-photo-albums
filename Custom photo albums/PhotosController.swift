@@ -14,6 +14,8 @@ class PhotosController: UIViewController {
     
     // MARK: Variables
     
+    var albumsController: AlbumsController?
+    
     var fetchResult: PHFetchResult<PHAsset>!
     var availableWidth: CGFloat = 0
     
@@ -154,9 +156,7 @@ class PhotosController: UIViewController {
             
             dispatchGroup.notify(queue: DispatchQueue.main, execute: {
                 
-                let userDefaults = UserDefaults.standard
-                userDefaults.set(self.assetUrls, forKey: Constants.kUserDefaults.kStringUrls)
-                userDefaults.synchronize()
+                self.albumsController?.urlStrings = self.assetUrls
                                 
                 if UIDevice.current.userInterfaceIdiom == .phone {
                     guard let viewControllers = self.navigationController?.viewControllers else { return }

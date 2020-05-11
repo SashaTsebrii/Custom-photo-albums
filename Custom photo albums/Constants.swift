@@ -12,10 +12,4 @@ struct Constants {
     
     static let kPreviewImage = "kPreviewImage"
     
-    struct kUserDefaults {
-        
-        static let kStringUrls = "kStringUrls"
-        
-    }
-    
 }
