@@ -97,12 +97,7 @@ class AddController: UIViewController {
         if UIDevice.current.userInterfaceIdiom == .phone {
             navigationController?.pushViewController(albumsController, animated: true)
         } else if UIDevice.current.userInterfaceIdiom == .pad {
-            navigationController?.pushViewController(albumsController, animated: true)
-            // TODO:
-            /*
-            navigationController?.modalPresentationStyle = .custom
             navigationController?.present(UINavigationController(rootViewController: albumsController), animated: true, completion: nil)
-            */
         }
         
     }

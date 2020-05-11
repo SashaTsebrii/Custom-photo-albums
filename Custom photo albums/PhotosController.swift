@@ -167,17 +167,7 @@ class PhotosController: UIViewController {
                         }
                     }
                 } else if UIDevice.current.userInterfaceIdiom == .pad {
-                    guard let viewControllers = self.navigationController?.viewControllers else { return }
-                    for firstViewController in viewControllers {
-                        if firstViewController is AddController {
-                            self.navigationController?.popToViewController(firstViewController, animated: true)
-                            break
-                        }
-                    }
-                    // TODO:
-                    /*
                     self.dismiss(animated: true, completion: nil)
-                    */
                 }
                 
             })
