@@ -172,7 +172,7 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AlbumCell.identifier, for: indexPath) as! AlbumCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AlbumCell.identifier, for: indexPath) as? AlbumCell else { fatalError("Unexpected cell in collection view") }
         
         switch Section(rawValue: indexPath.section)! {
         case .allPhotos:
@@ -180,12 +180,14 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
             cell.fetchResult = allPhotos
             return cell
         case .smartAlbums:
-            let collection = smartAlbums.object(at: indexPath.row)
+            let collection: PHCollection = smartAlbums.object(at: indexPath.row)
             cell.titleLabel.text = collection.localizedTitle
-            cell.fetchResult = PHAsset.fetchAssets(in: collection, options: nil)
+            guard let assetCollection = collection as? PHAssetCollection
+                else { fatalError("Expected an asset collection.") }
+            cell.fetchResult = PHAsset.fetchAssets(in: assetCollection, options: nil)
             return cell
         case .userCollections:
-            let collection = userCollections.object(at: indexPath.row)
+            let collection: PHCollection = userCollections.object(at: indexPath.row)
             cell.titleLabel.text = collection.localizedTitle
             guard let assetCollection = collection as? PHAssetCollection
                 else { fatalError("Expected an asset collection.") }
@@ -205,12 +207,35 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
         let cell = collectionView.cellForItem(at: indexPath) as! AlbumCell
         photosController.title = cell.titleLabel.text
         
+        switch Section(rawValue: indexPath.section)! {
+        case .allPhotos:
+            photosController.fetchResult = allPhotos
+        case .smartAlbums:
+            let indexPath = collectionView.indexPath(for: cell)!
+            let collection: PHCollection = smartAlbums.object(at: indexPath.row)
+            // Configure the view controller with the asset collection
+            guard let assetCollection = collection as? PHAssetCollection
+                else { fatalError("Expected an asset collection.") }
+            photosController.currentIndexPath = indexPath
+            photosController.fetchResult = PHAsset.fetchAssets(in: assetCollection, options: nil)
+        case .userCollections:
+            let indexPath = collectionView.indexPath(for: cell)!
+            let collection: PHCollection = userCollections.object(at: indexPath.row)
+            // Configure the view controller with the asset collection
+            guard let assetCollection = collection as? PHAssetCollection
+                else { fatalError("Expected an asset collection.") }
+            photosController.currentIndexPath = indexPath
+            photosController.fetchResult = PHAsset.fetchAssets(in: assetCollection, options: nil)
+        }
+        
+        /*
         if indexPath.section == 0 {
             photosController.fetchResult = allPhotos
         } else {
             // Fetch the asset collection for the selected row.
             let indexPath = collectionView.indexPath(for: cell)!
             let collection: PHCollection
+            
             switch Section(rawValue: indexPath.section)! {
             case .smartAlbums:
                 collection = smartAlbums.object(at: indexPath.row)
@@ -218,7 +243,6 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
                 collection = userCollections.object(at: indexPath.row)
             default:
                 // The default indicates that other segues have already handled the photos section.
-                
                 return
             }
             
@@ -228,6 +252,7 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
             photosController.currentIndexPath = indexPath
             photosController.fetchResult = PHAsset.fetchAssets(in: assetCollection, options: nil)
         }
+        */
         
         navigationController?.pushViewController(photosController, animated: true)
         

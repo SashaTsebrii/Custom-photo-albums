@@ -7,54 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "17A32A5D-7B13-436C-A69D-511EDCDC7416"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Custom photo albums/AlbumCell.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "183"
-            endingLineNumber = "183"
-            landmarkName = "fetchPhotoAtIndex(_:_:_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "17A32A5D-7B13-436C-A69D-511EDCDC7416 - 97f02c7b952b2c32"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;__C.UIImage&gt;, Swift.Optional&lt;Swift.Dictionary&lt;Swift.AnyHashable, Any&gt;&gt;) -&gt; () in Custom_photo_albums.AlbumCell.fetchPhotoAtIndex(Swift.Int, Swift.Int, __C.PHFetchResult&lt;__C.PHAsset&gt;) -&gt; ()"
-                  moduleName = "Custom photo albums"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/aleksandrtsebrii/Documents/MyProject/Custom%20photo%20albums/Custom%20photo%20albums/AlbumCell.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "175"
-                  endingLineNumber = "175"
-                  offsetFromSymbolStart = "932">
-               </Location>
-               <Location
-                  uuid = "17A32A5D-7B13-436C-A69D-511EDCDC7416 - df751e8dc0b7942e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in closure #1 (Swift.Optional&lt;__C.UIImage&gt;, Swift.Optional&lt;Swift.Dictionary&lt;Swift.AnyHashable, Any&gt;&gt;) -&gt; () in Custom_photo_albums.AlbumCell.fetchPhotoAtIndex(Swift.Int, Swift.Int, __C.PHFetchResult&lt;__C.PHAsset&gt;) -&gt; ()"
-                  moduleName = "Custom photo albums"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/aleksandrtsebrii/Documents/MyProject/Custom%20photo%20albums/Custom%20photo%20albums/AlbumCell.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "176"
-                  endingLineNumber = "176"
-                  offsetFromSymbolStart = "64">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "A9048DFF-7715-41C3-B930-9241ECCFDF72"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -94,8 +46,8 @@
             filePath = "Custom photo albums/AlbumsController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "collectionView(_:cellForItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -174,8 +126,8 @@
             filePath = "Custom photo albums/AlbumCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
             landmarkName = "fetchPhotoAtIndex(_:_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -241,6 +193,38 @@
             startingLineNumber = "107"
             endingLineNumber = "107"
             landmarkName = "viewWillAppear(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B95EBFFA-707B-4442-BBD9-AC2AE0B916DE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Custom photo albums/AlbumCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "prepareForReuse()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6D0B760D-0E50-4D30-84BC-D3AD9518C6A4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Custom photo albums/AlbumCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
+            landmarkName = "fetchPhotoAtIndex(_:_:_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -141,6 +141,8 @@ class AlbumCell: UICollectionViewCell {
         titleLabel.text = nil
         subtitleLabel.text = nil
         
+        images.removeAll()
+        
     }
     
     // MARK: Helper functions
