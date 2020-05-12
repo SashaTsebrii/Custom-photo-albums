@@ -101,9 +101,15 @@ class AddController: UIViewController {
         } else if UIDevice.current.userInterfaceIdiom == .pad {
             navigationController.modalPresentationStyle = .formSheet
             self.present(navigationController, animated: true, completion: nil)
-            let size = CGSize(width: view.bounds.width * 0.7, height: view.bounds.height * 0.7)
+            var size: CGSize = .zero
+            if UIDevice.current.orientation.isPortrait {
+                print("Portrait")
+                size = CGSize(width: view.bounds.width * 0.7, height: view.bounds.height * 0.7)
+            } else if UIDevice.current.orientation.isLandscape {
+                print("Landscape")
+                size = CGSize(width: view.bounds.height * 0.7, height: view.bounds.width * 0.7)
+            }
             navigationController.preferredContentSize = CGSize(width: size.width, height: size.height)
-            
         }
         
     }
