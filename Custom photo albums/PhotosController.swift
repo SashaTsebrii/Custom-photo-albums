@@ -15,6 +15,7 @@ class PhotosController: UIViewController {
     // MARK: Variables
     
     var albumsController: AlbumsController?
+    var currentIndexPath: IndexPath?
     
     var fetchResult: PHFetchResult<PHAsset>!
     var availableWidth: CGFloat = 0
@@ -127,11 +128,32 @@ class PhotosController: UIViewController {
         updateCachedAssets()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if self.isMovingFromParent {
+            backBarButtonTapped()
+        }
+    }
+    
     deinit {
         PHPhotoLibrary.shared().unregisterChangeObserver(self)
     }
     
     // MARK: Actions
+    
+    private func backBarButtonTapped() {
+        print("👆 BACK BAR BUTTON")
+        
+        // FIXME: Change back button
+        
+        albumsController?.isEnteredFromApp = false
+        
+        let userDefaults = UserDefaults.standard
+        userDefaults.removeObject(forKey: Constants.kUserDefaults.kPreviousIndexPath)
+        userDefaults.synchronize()
+        
+    }
     
     @objc func importBarButtonTapped(_ sender: UIBarButtonItem) {
         print("👆 IMPORT BAR BUTTON")
@@ -162,11 +184,17 @@ class PhotosController: UIViewController {
                     guard let viewControllers = self.navigationController?.viewControllers else { return }
                     for firstViewController in viewControllers {
                         if firstViewController is AddController {
+                            if let currentIndexPath = self.currentIndexPath {
+                                self.storaIndexPath(currentIndexPath, byKey: Constants.kUserDefaults.kPreviousIndexPath)
+                            }
                             self.navigationController?.popToViewController(firstViewController, animated: true)
                             break
                         }
                     }
                 } else if UIDevice.current.userInterfaceIdiom == .pad {
+                    if let currentIndexPath = self.currentIndexPath {
+                        self.storaIndexPath(currentIndexPath, byKey: Constants.kUserDefaults.kPreviousIndexPath)
+                    }
                     self.dismiss(animated: true, completion: nil)
                 }
                 
@@ -180,6 +208,17 @@ class PhotosController: UIViewController {
             present(alertControl, animated: true, completion: nil)
             
         }
+        
+    }
+    
+    // MARK: Helper
+    
+    private func storaIndexPath(_ indexPath: IndexPath, byKey: String) {
+        
+        let indexPathData = NSKeyedArchiver.archivedData(withRootObject: indexPath)
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(indexPathData, forKey: Constants.kUserDefaults.kPreviousIndexPath)
+        userDefaults.synchronize()
         
     }
     

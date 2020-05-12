@@ -12,4 +12,10 @@ struct Constants {
     
     static let kPreviewImage = "kPreviewImage"
     
+    struct kUserDefaults {
+        
+        static let kPreviousIndexPath = "kPreviousIndexPath"
+        
+    }
+    
 }

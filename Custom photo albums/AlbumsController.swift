@@ -19,6 +19,8 @@ class AlbumsController: UIViewController {
     
     weak var delegate: AlbumsControllerDelegate?
     
+    var isEnteredFromApp: Bool = false
+    
     var urlStrings: [String]? {
         didSet {
             delegate?.getPhoto(urlStrings: urlStrings)
@@ -80,6 +82,10 @@ class AlbumsController: UIViewController {
         
         navigationItem.title = "Albums"
         
+        // Create Cancel button
+        let cancelBarButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelBarButtonTapped(_:)))
+        self.navigationItem.leftBarButtonItem = cancelBarButton
+        
         // Create a PHFetchResult object for each section in the collection view.
         let allPhotosOptions = PHFetchOptions()
         allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
@@ -94,8 +100,53 @@ class AlbumsController: UIViewController {
                 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if isEnteredFromApp == true {
+            
+            if let indexPathData = UserDefaults.standard.object(forKey: Constants.kUserDefaults.kPreviousIndexPath) as? NSData {
+                let indexPath = NSKeyedUnarchiver.unarchiveObject(with: indexPathData as Data) as! IndexPath
+                
+                let photosController = PhotosController()
+                photosController.albumsController = self
+                photosController.currentIndexPath = indexPath
+                
+                switch Section(rawValue: indexPath.section)! {
+                case .allPhotos:
+                    photosController.title = NSLocalizedString("All Photos", comment: "")
+                    photosController.fetchResult = allPhotos
+                case .smartAlbums:
+                    let collection = smartAlbums.object(at: indexPath.row)
+                    photosController.title = collection.localizedTitle
+                    photosController.fetchResult = PHAsset.fetchAssets(in: collection, options: nil)
+                case .userCollections:
+                    let collection = userCollections.object(at: indexPath.row)
+                    photosController.title = collection.localizedTitle
+                    guard let assetCollection = collection as? PHAssetCollection
+                        else { fatalError("Expected an asset collection.") }
+                    photosController.fetchResult = PHAsset.fetchAssets(in: assetCollection, options: nil)
+                }
+                
+                navigationController?.pushViewController(photosController, animated: true)
+                
+            }
+            
+        }
+        
+    }
+    
     deinit {
         PHPhotoLibrary.shared().unregisterChangeObserver(self)
+    }
+    
+    // MARK: Actons
+    
+    @objc func cancelBarButtonTapped(_ sender: UIBarButtonItem) {
+        print("👆 CANCEL BAR BUTTON")
+        
+        dismiss(animated: true, completion: nil)
+        
     }
     
 }
@@ -120,6 +171,7 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AlbumCell.identifier, for: indexPath) as! AlbumCell
         
         switch Section(rawValue: indexPath.section)! {
@@ -173,6 +225,7 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
             // Configure the view controller with the asset collection
             guard let assetCollection = collection as? PHAssetCollection
                 else { fatalError("Expected an asset collection.") }
+            photosController.currentIndexPath = indexPath
             photosController.fetchResult = PHAsset.fetchAssets(in: assetCollection, options: nil)
         }
         

@@ -93,6 +93,7 @@ class AddController: UIViewController {
         print("👆 ADD BAR BUTTON")
         
         let albumsController = AlbumsController()
+        albumsController.isEnteredFromApp = true
         
         albumsController.delegate = self
         if UIDevice.current.userInterfaceIdiom == .phone {
