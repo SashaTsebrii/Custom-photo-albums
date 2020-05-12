@@ -180,23 +180,11 @@ class PhotosController: UIViewController {
                 
                 self.albumsController?.urlStrings = self.assetUrls
                                 
-                if UIDevice.current.userInterfaceIdiom == .phone {
-                    guard let viewControllers = self.navigationController?.viewControllers else { return }
-                    for firstViewController in viewControllers {
-                        if firstViewController is AddController {
-                            if let currentIndexPath = self.currentIndexPath {
-                                self.storaIndexPath(currentIndexPath, byKey: Constants.kUserDefaults.kPreviousIndexPath)
-                            }
-                            self.navigationController?.popToViewController(firstViewController, animated: true)
-                            break
-                        }
-                    }
-                } else if UIDevice.current.userInterfaceIdiom == .pad {
-                    if let currentIndexPath = self.currentIndexPath {
-                        self.storaIndexPath(currentIndexPath, byKey: Constants.kUserDefaults.kPreviousIndexPath)
-                    }
-                    self.dismiss(animated: true, completion: nil)
+                if let currentIndexPath = self.currentIndexPath {
+                    self.storaIndexPath(currentIndexPath, byKey: Constants.kUserDefaults.kPreviousIndexPath)
                 }
+                
+                self.dismiss(animated: true, completion: nil)
                 
             })
             

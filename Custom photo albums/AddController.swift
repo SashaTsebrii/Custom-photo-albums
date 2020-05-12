@@ -94,13 +94,11 @@ class AddController: UIViewController {
         
         let albumsController = AlbumsController()
         albumsController.isEnteredFromApp = true
-        
         albumsController.delegate = self
+        let navigationController = UINavigationController(rootViewController: albumsController)
         if UIDevice.current.userInterfaceIdiom == .phone {
-            navigationController?.pushViewController(albumsController, animated: true)
+            self.present(navigationController, animated: true, completion: nil)
         } else if UIDevice.current.userInterfaceIdiom == .pad {
-            
-            let navigationController = UINavigationController(rootViewController: albumsController)
             navigationController.modalPresentationStyle = .formSheet
             self.present(navigationController, animated: true, completion: nil)
             let size = CGSize(width: view.bounds.width * 0.7, height: view.bounds.height * 0.7)
