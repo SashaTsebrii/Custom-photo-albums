@@ -171,13 +171,14 @@ class AlbumCell: UICollectionViewCell {
             targetSize =  CGSize(width: 300, height: 300)
         }
         
-        PHImageManager.default().requestImage(for: fetchResult.object(at: index) as PHAsset, targetSize: targetSize, contentMode: PHImageContentMode.aspectFill, options: requestOptions, resultHandler: { (image, _) in
+        PHImageManager.default().requestImage(for: fetchResult.object(at: fetchResult.count - 1 - index) as PHAsset, targetSize: targetSize, contentMode: PHImageContentMode.aspectFill, options: requestOptions, resultHandler: { (image, _) in
             if let image = image {
                 // Add the returned image to your array
                 self.images += [image]
             }
             // If you haven't already reached the first index of the fetch result and if you haven't already stored all of the images you need, perform the fetch request again with an incremented index
             if index + 1 < fetchResult.count && self.images.count < totalImageCountNeeded {
+                
                 self.fetchPhotoAtIndex(index + 1, totalImageCountNeeded, fetchResult)
                 
             } else {
