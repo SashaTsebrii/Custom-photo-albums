@@ -122,9 +122,7 @@ class PhotosController: UIViewController {
         super.viewDidAppear(animated)
         
         updateCachedAssets()
-        
-        collectionView.scrollToLast()
-        
+                
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -134,6 +132,14 @@ class PhotosController: UIViewController {
         if self.isMovingFromParent {
             backBarButtonTapped()
         }
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        // Auto scroll to last collectionView item
+        collectionView.scrollToLast()
         
     }
     
