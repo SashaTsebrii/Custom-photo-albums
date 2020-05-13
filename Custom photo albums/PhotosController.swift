@@ -14,6 +14,8 @@ class PhotosController: UIViewController {
     
     // MARK: Variables
     
+    var isFirstTime: Bool = true
+    
     var albumsController: AlbumsController?
     var currentIndexPath: IndexPath?
     
@@ -71,6 +73,8 @@ class PhotosController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        isFirstTime = true
         
         // Create Import button
         let importBarButton = UIBarButtonItem(title: "Import", style: .plain, target: self, action: #selector(importBarButtonTapped(_:)))
@@ -138,8 +142,12 @@ class PhotosController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        // Auto scroll to last collectionView item
-        collectionView.scrollToLast()
+        if isFirstTime == true {
+            isFirstTime = false
+            
+            // Auto scroll to last collectionView item
+            collectionView.scrollToLast()
+        }
         
     }
     
