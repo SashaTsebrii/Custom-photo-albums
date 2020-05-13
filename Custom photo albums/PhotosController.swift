@@ -79,7 +79,8 @@ class PhotosController: UIViewController {
         resetCachedAssets()
         PHPhotoLibrary.shared().register(self)
         
-        // Reaching this point without a segue means that this AssetGridViewController became visible at app launch. As such, match the behavior of the segue from the default "All Photos" view.
+        // Reaching this point without a segue means that this AssetGridViewController became visible at app launch. As such, match the behavior of the segue from the default "All Photos" view
+        // FIXME: Not shure if it work
         if fetchResult == nil {
             let allPhotosOptions = PHFetchOptions()
             allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
@@ -121,6 +122,9 @@ class PhotosController: UIViewController {
         super.viewDidAppear(animated)
         
         updateCachedAssets()
+        
+        collectionView.scrollToLast()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
