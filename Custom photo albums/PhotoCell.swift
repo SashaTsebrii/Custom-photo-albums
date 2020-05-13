@@ -36,16 +36,16 @@ class PhotoCell: UICollectionViewCell {
     
     // MARK: Properties
     
-    var photoImageView = PreviewImageView(frame: .zero)
+    fileprivate var photoImageView = PreviewImageView(frame: .zero)
     
-    var overlayView: UIView = {
+    fileprivate var overlayView: UIView = {
         let view = UIView(frame: .zero)
         view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    var checkView = CheckView(frame: .zero)
+    fileprivate var checkView = CheckView(frame: .zero)
     
     // MARK: Initialization
 

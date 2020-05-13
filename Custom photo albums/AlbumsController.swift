@@ -27,7 +27,7 @@ class AlbumsController: UIViewController {
         }
     }
     
-    enum Section: Int {
+    fileprivate enum Section: Int {
         case allPhotos = 0
         case smartAlbums
         case userCollections
@@ -35,10 +35,10 @@ class AlbumsController: UIViewController {
         static let count = 3
     }
         
-    var allPhotos: PHFetchResult<PHAsset>!
-    var smartAlbums: PHFetchResult<PHAssetCollection>!
-    var userCollections: PHFetchResult<PHCollection>!
-    let sectionLocalizedTitles = ["", NSLocalizedString("Smart Albums", comment: ""), NSLocalizedString("Albums", comment: "")]
+    fileprivate var allPhotos: PHFetchResult<PHAsset>!
+    fileprivate var smartAlbums: PHFetchResult<PHAssetCollection>!
+    fileprivate var userCollections: PHFetchResult<PHCollection>!
+    fileprivate let sectionLocalizedTitles = ["", NSLocalizedString("Smart Albums", comment: ""), NSLocalizedString("Albums", comment: "")]
     
     // MARK: Properties
     
@@ -150,7 +150,7 @@ class AlbumsController: UIViewController {
     
     // MARK: Actons
     
-    @objc func cancelBarButtonTapped(_ sender: UIBarButtonItem) {
+    @objc fileprivate func cancelBarButtonTapped(_ sender: UIBarButtonItem) {
         print("👆 CANCEL BAR BUTTON")
         
         dismiss(animated: true, completion: nil)

@@ -13,17 +13,17 @@ class AddController: UIViewController {
     
     // MARK: Variables
     
-    var selectedImages = [UIImage]()
+    fileprivate var selectedImages = [UIImage]()
     
     // MARK: Properties
     
-    let addButton: CircleButton = {
+    fileprivate let addButton: CircleButton = {
         let button = CircleButton(frame: .zero)
         button.addTarget(self, action: #selector(addButtonTapped(_:)), for: .touchUpInside)
         return button
     }()
     
-    let previewImageView: UIImageView = {
+    fileprivate let previewImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFit
         imageView.backgroundColor = .lightGray
@@ -89,7 +89,7 @@ class AddController: UIViewController {
     
     // MARK: Actions
     
-    @objc func addButtonTapped(_ sender: UIButton) {
+    @objc fileprivate func addButtonTapped(_ sender: UIButton) {
         print("👆 ADD BAR BUTTON")
         
         let albumsController = AlbumsController()

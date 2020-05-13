@@ -21,7 +21,7 @@ class AlbumCell: UICollectionViewCell {
         }
     }
     
-    var images: [UIImage] = []
+    fileprivate var images: [UIImage] = []
     
     // MARK: Properties
 
@@ -35,7 +35,7 @@ class AlbumCell: UICollectionViewCell {
         return label
     }()
     
-    var subtitleLabel: BaseLabel = {
+    fileprivate var subtitleLabel: BaseLabel = {
         let label = BaseLabel(frame: .zero)
         if #available(iOS 8.2, *) {
             label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
@@ -45,9 +45,9 @@ class AlbumCell: UICollectionViewCell {
         return label
     }()
     
-    var mainImageView = PreviewImageView(frame: .zero)
-    var secondImageView = PreviewImageView(frame: .zero)
-    var thirdImageView = PreviewImageView(frame: .zero)
+    fileprivate var mainImageView = PreviewImageView(frame: .zero)
+    fileprivate var secondImageView = PreviewImageView(frame: .zero)
+    fileprivate var thirdImageView = PreviewImageView(frame: .zero)
     
     // MARK: Initialization
     
@@ -147,7 +147,7 @@ class AlbumCell: UICollectionViewCell {
     
     // MARK: Helper functions
     
-    func fetchPhotos() {
+    fileprivate func fetchPhotos() {
         // If the fetch result isn't empty, proceed with the image request
         if fetchResult.count > 0 {
             // The number of images to fetch
@@ -157,7 +157,7 @@ class AlbumCell: UICollectionViewCell {
     }
     
     // Repeatedly call the following method while incrementing the index until all the photos are fetched
-    func fetchPhotoAtIndex(_ index: Int, _ totalImageCountNeeded: Int, _ fetchResult: PHFetchResult<PHAsset>) {
+    fileprivate func fetchPhotoAtIndex(_ index: Int, _ totalImageCountNeeded: Int, _ fetchResult: PHFetchResult<PHAsset>) {
         
         // Note that if the request is not set to synchronous the requestImageForAsset will return both the image and thumbnail; by setting synchronous to true it will return just the thumbnail
         let requestOptions = PHImageRequestOptions()

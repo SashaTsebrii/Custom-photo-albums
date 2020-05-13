@@ -14,24 +14,24 @@ class PhotosController: UIViewController {
     
     // MARK: Variables
     
-    var isFirstTime: Bool = true
+    fileprivate var isFirstTime: Bool = true
     
     var albumsController: AlbumsController?
     var currentIndexPath: IndexPath?
-    
     var fetchResult: PHFetchResult<PHAsset>!
-    var availableWidth: CGFloat = 0
     
-    var collectionViewFlowLayout = UICollectionViewFlowLayout()
+    fileprivate var availableWidth: CGFloat = 0
+    
+    fileprivate var collectionViewFlowLayout = UICollectionViewFlowLayout()
     
     fileprivate let imageManager = PHCachingImageManager()
     fileprivate var thumbnailSize: CGSize!
     fileprivate var previousPreheatRect = CGRect.zero
     
     // This is selected cell Index array
-    var selectedIndexes = [IndexPath]()
+    fileprivate var selectedIndexes = [IndexPath]()
     
-    var assetUrls = [String]()
+    fileprivate var assetUrlStrings = [String]()
     
     // MARK: Properties
     
@@ -157,7 +157,7 @@ class PhotosController: UIViewController {
     
     // MARK: Actions
     
-    private func backBarButtonTapped() {
+    fileprivate func backBarButtonTapped() {
         print("👆 BACK BAR BUTTON")
         
         albumsController?.isEnteredFromApp = false
@@ -168,7 +168,7 @@ class PhotosController: UIViewController {
         
     }
     
-    @objc func importBarButtonTapped(_ sender: UIBarButtonItem) {
+    @objc fileprivate func importBarButtonTapped(_ sender: UIBarButtonItem) {
         print("👆 IMPORT BAR BUTTON")
         
         if selectedIndexes.count > 0 {
@@ -182,7 +182,7 @@ class PhotosController: UIViewController {
                     if let url = url {
                         print(url)
                         let path: String = url.path
-                        self.assetUrls.append(path)
+                        self.assetUrlStrings.append(path)
                         // Exit dispatch group
                         dispatchGroup.leave()
                     }
@@ -191,7 +191,7 @@ class PhotosController: UIViewController {
             
             dispatchGroup.notify(queue: DispatchQueue.main, execute: {
                 
-                self.albumsController?.urlStrings = self.assetUrls
+                self.albumsController?.urlStrings = self.assetUrlStrings
                                 
                 if let currentIndexPath = self.currentIndexPath {
                     self.storaIndexPath(currentIndexPath, byKey: Constants.kUserDefaults.kPreviousIndexPath)
@@ -214,7 +214,7 @@ class PhotosController: UIViewController {
     
     // MARK: Helper
     
-    private func storaIndexPath(_ indexPath: IndexPath, byKey: String) {
+    fileprivate func storaIndexPath(_ indexPath: IndexPath, byKey: String) {
         
         let indexPathData = NSKeyedArchiver.archivedData(withRootObject: indexPath)
         let userDefaults = UserDefaults.standard
