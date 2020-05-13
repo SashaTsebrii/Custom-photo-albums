@@ -91,19 +91,17 @@ class AlbumsController: UIViewController {
         // Set all photos
         let allPhotosOptions = PHFetchOptions()
         allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-        // TODO: !
+        allPhotosOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
         allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
         
         // Set user albums
         let smartAlbumsOptions = PHFetchOptions()
         smartAlbumsOptions.predicate = NSPredicate(format: "estimatedAssetCount > 0")
-        // TODO: !
         smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .albumRegular, options: smartAlbumsOptions)
         
         // Set user collections
         let userCollectionOptions = PHFetchOptions()
         userCollectionOptions.predicate = NSPredicate(format: "estimatedAssetCount > 0")
-        // TODO: !
         userCollections = PHCollectionList.fetchTopLevelUserCollections(with: userCollectionOptions)
         
         PHPhotoLibrary.shared().register(self)
