@@ -86,16 +86,26 @@ class AlbumsController: UIViewController {
         let cancelBarButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelBarButtonTapped(_:)))
         self.navigationItem.leftBarButtonItem = cancelBarButton
         
-        // Create a PHFetchResult object for each section in the collection view.
-        let allPhotosOptions = PHFetchOptions()
-        allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
-        let smartAlbumsOptions = PHFetchOptions()
+        // Create a PHFetchResult object for each section in the collection view. Fetching all PHAssetCollections with at least some media in it
         
+        // Set all photos
+        let allPhotosOptions = PHFetchOptions()
+        allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        // TODO: !
+        allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
+        
+        // Set user albums
+        let smartAlbumsOptions = PHFetchOptions()
+        smartAlbumsOptions.predicate = NSPredicate(format: "estimatedAssetCount > 0")
+        // TODO: !
         smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .albumRegular, options: smartAlbumsOptions)
+        
+        // Set user collections
         let userCollectionOptions = PHFetchOptions()
-
+        userCollectionOptions.predicate = NSPredicate(format: "estimatedAssetCount > 0")
+        // TODO: !
         userCollections = PHCollectionList.fetchTopLevelUserCollections(with: userCollectionOptions)
+        
         PHPhotoLibrary.shared().register(self)
                 
     }
@@ -206,6 +216,7 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
         
         let cell = collectionView.cellForItem(at: indexPath) as! AlbumCell
         photosController.title = cell.titleLabel.text
+        photosController.currentIndexPath = indexPath
         
         switch Section(rawValue: indexPath.section)! {
         case .allPhotos:
@@ -216,7 +227,6 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
             // Configure the view controller with the asset collection
             guard let assetCollection = collection as? PHAssetCollection
                 else { fatalError("Expected an asset collection.") }
-            photosController.currentIndexPath = indexPath
             photosController.fetchResult = PHAsset.fetchAssets(in: assetCollection, options: nil)
         case .userCollections:
             let indexPath = collectionView.indexPath(for: cell)!
@@ -224,35 +234,8 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
             // Configure the view controller with the asset collection
             guard let assetCollection = collection as? PHAssetCollection
                 else { fatalError("Expected an asset collection.") }
-            photosController.currentIndexPath = indexPath
             photosController.fetchResult = PHAsset.fetchAssets(in: assetCollection, options: nil)
         }
-        
-        /*
-        if indexPath.section == 0 {
-            photosController.fetchResult = allPhotos
-        } else {
-            // Fetch the asset collection for the selected row.
-            let indexPath = collectionView.indexPath(for: cell)!
-            let collection: PHCollection
-            
-            switch Section(rawValue: indexPath.section)! {
-            case .smartAlbums:
-                collection = smartAlbums.object(at: indexPath.row)
-            case .userCollections:
-                collection = userCollections.object(at: indexPath.row)
-            default:
-                // The default indicates that other segues have already handled the photos section.
-                return
-            }
-            
-            // Configure the view controller with the asset collection
-            guard let assetCollection = collection as? PHAssetCollection
-                else { fatalError("Expected an asset collection.") }
-            photosController.currentIndexPath = indexPath
-            photosController.fetchResult = PHAsset.fetchAssets(in: assetCollection, options: nil)
-        }
-        */
         
         navigationController?.pushViewController(photosController, animated: true)
         

@@ -109,12 +109,6 @@ class PhotosController: UIViewController {
         super.viewWillAppear(animated)
         
         // Determine the size of the thumbnails to request from the PHCachingImageManager.
-        /*
-        let scale = UIScreen.main.scale
-        let cellSize = collectionViewFlowLayout.itemSize
-        thumbnailSize = CGSize(width: cellSize.width * scale, height: cellSize.height * scale)
-        */
-        
         if UIDevice.current.userInterfaceIdiom == .phone {
             thumbnailSize =  CGSize(width: 200, height: 200)
         } else if UIDevice.current.userInterfaceIdiom == .pad {
@@ -125,15 +119,18 @@ class PhotosController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         updateCachedAssets()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
+        // Catch when back button tapped
         if self.isMovingFromParent {
             backBarButtonTapped()
         }
+        
     }
     
     deinit {
@@ -144,8 +141,6 @@ class PhotosController: UIViewController {
     
     private func backBarButtonTapped() {
         print("👆 BACK BAR BUTTON")
-        
-        // FIXME: Change back button
         
         albumsController?.isEnteredFromApp = false
         
