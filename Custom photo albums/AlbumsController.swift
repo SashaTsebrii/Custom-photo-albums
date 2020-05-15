@@ -268,7 +268,14 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
     // MARK: UICollectionViewDelegateFlowLayout
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.bounds.width * 0.5) - 16, height: (collectionView.bounds.width * 0.45) - 16)
+        // TODO: Implement dynamic cell height
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return CGSize(width: (collectionView.bounds.width * 0.5) - 16, height: (collectionView.bounds.width * 0.45) - 16)
+        } else if UIDevice.current.userInterfaceIdiom == .pad {
+            return CGSize(width: (collectionView.bounds.width * 0.5) - 16, height: (collectionView.bounds.width * 0.4) - 16)
+        } else {
+            return .zero
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -301,8 +308,8 @@ extension AlbumsController: PHPhotoLibraryChangeObserver {
                 // Don't update the table row that always reads "All Photos."
             }
             
-            // Update the cached fetch results, and reload the table sections to match.
             // FIXME: Implement it for evry smart album
+            // Update the cached fetch results, and reload the table sections to match.
             /*
             if let changeDetails = changeInstance.changeDetails(for: smartAlbums) {
                 smartAlbums = changeDetails.fetchResultAfterChanges
