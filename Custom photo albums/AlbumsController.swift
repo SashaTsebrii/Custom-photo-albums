@@ -162,7 +162,7 @@ class AlbumsController: UIViewController {
                     photosController.fetchResult = PHAsset.fetchAssets(in: assetCollection, options: nil)
                 }
                 
-                navigationController?.pushViewController(photosController, animated: true)
+                navigationController?.pushViewController(photosController, animated: false)
                 
             }
             
