@@ -36,7 +36,7 @@ class AlbumsController: UIViewController {
     }
     
     fileprivate var allPhotos: PHFetchResult<PHAsset>!
-    fileprivate var smartAlbums: PHFetchResult<PHAssetCollection>!
+    fileprivate var smartAlbums = [PHFetchResult<PHAssetCollection>]()
     fileprivate var userCollections: PHFetchResult<PHCollection>!
     fileprivate let sectionLocalizedTitles = ["", NSLocalizedString("Smart Albums", comment: ""), NSLocalizedString("Albums", comment: "")]
     
@@ -94,15 +94,43 @@ class AlbumsController: UIViewController {
         allPhotosOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
         allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
         
-        // Set user albums
         let smartAlbumsOptions = PHFetchOptions()
+        // TODO: Try sort objects for evry smart album
+        /*
         smartAlbumsOptions.predicate = NSPredicate(format: "estimatedAssetCount > 0")
-        smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .albumRegular, options: smartAlbumsOptions)
+        smartAlbumsOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
+        */
+        
+        // Set favorites album
+        let favoritesCollection: PHFetchResult<PHAssetCollection>!
+        favoritesCollection = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites, options: smartAlbumsOptions)
+        smartAlbums.append(favoritesCollection)
+        
+        // Set recently Added album
+        let recentlyAddedCollection: PHFetchResult<PHAssetCollection>!
+        recentlyAddedCollection = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumRecentlyAdded, options: smartAlbumsOptions)
+        smartAlbums.append(recentlyAddedCollection)
+        
+        // Set self portraits album
+        if #available(iOS 9, *) {
+            let selfPortraitsCollection: PHFetchResult<PHAssetCollection>!
+            selfPortraitsCollection = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumSelfPortraits, options: smartAlbumsOptions)
+            smartAlbums.append(selfPortraitsCollection)
+        }
+        
+        // Set screenshots album
+        if #available(iOS 9, *) {
+            let screenshotsCollection: PHFetchResult<PHAssetCollection>!
+            screenshotsCollection = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumScreenshots, options: smartAlbumsOptions)
+            smartAlbums.append(screenshotsCollection)
+        }
         
         // Set user collections
         let userCollectionOptions = PHFetchOptions()
         userCollectionOptions.predicate = NSPredicate(format: "estimatedAssetCount > 0")
         userCollections = PHCollectionList.fetchTopLevelUserCollections(with: userCollectionOptions)
+
+        print("\nSmart albums - \(smartAlbums.count) \nUser collections - \(userCollections.count)")
         
         PHPhotoLibrary.shared().register(self)
                 
@@ -125,9 +153,9 @@ class AlbumsController: UIViewController {
                     photosController.title = NSLocalizedString("All Photos", comment: "")
                     photosController.fetchResult = allPhotos
                 case .smartAlbums:
-                    let collection = smartAlbums.object(at: indexPath.row)
-                    photosController.title = collection.localizedTitle
-                    photosController.fetchResult = PHAsset.fetchAssets(in: collection, options: nil)
+                    let collection = smartAlbums[indexPath.row].firstObject
+                    photosController.title = collection!.localizedTitle
+                    photosController.fetchResult = PHAsset.fetchAssets(in: collection!, options: nil)
                 case .userCollections:
                     let collection = userCollections.object(at: indexPath.row)
                     photosController.title = collection.localizedTitle
@@ -188,7 +216,7 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
             cell.fetchResult = allPhotos
             return cell
         case .smartAlbums:
-            let collection: PHCollection = smartAlbums.object(at: indexPath.row)
+            let collection: PHCollection = smartAlbums[indexPath.row].firstObject!
             cell.titleString = collection.localizedTitle
             guard let assetCollection = collection as? PHAssetCollection
                 else { fatalError("Expected an asset collection.") }
@@ -221,7 +249,7 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
             photosController.fetchResult = allPhotos
         case .smartAlbums:
             let indexPath = collectionView.indexPath(for: cell)!
-            let collection: PHCollection = smartAlbums.object(at: indexPath.row)
+            let collection: PHCollection = smartAlbums[indexPath.row].firstObject!
             // Configure the view controller with the asset collection
             guard let assetCollection = collection as? PHAssetCollection
                 else { fatalError("Expected an asset collection.") }
@@ -276,10 +304,13 @@ extension AlbumsController: PHPhotoLibraryChangeObserver {
             }
             
             // Update the cached fetch results, and reload the table sections to match.
+            // FIXME: Implement it for evry smart album
+            /*
             if let changeDetails = changeInstance.changeDetails(for: smartAlbums) {
                 smartAlbums = changeDetails.fetchResultAfterChanges
                 collectionView.reloadSections(IndexSet(integer: Section.smartAlbums.rawValue))
             }
+            */
             
             if let changeDetails = changeInstance.changeDetails(for: userCollections) {
                 userCollections = changeDetails.fetchResultAfterChanges
