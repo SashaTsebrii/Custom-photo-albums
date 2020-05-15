@@ -129,8 +129,6 @@ class AlbumsController: UIViewController {
         let userCollectionOptions = PHFetchOptions()
         userCollectionOptions.predicate = NSPredicate(format: "estimatedAssetCount > 0")
         userCollections = PHCollectionList.fetchTopLevelUserCollections(with: userCollectionOptions)
-
-        print("\nSmart albums - \(smartAlbums.count) \nUser collections - \(userCollections.count)")
         
         PHPhotoLibrary.shared().register(self)
                 
