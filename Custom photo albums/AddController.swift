@@ -97,6 +97,7 @@ class AddController: UIViewController {
         albumsController.delegate = self
         let navigationController = UINavigationController(rootViewController: albumsController)
         if UIDevice.current.userInterfaceIdiom == .phone {
+            navigationController.modalPresentationStyle = .fullScreen
             self.present(navigationController, animated: true, completion: nil)
         } else if UIDevice.current.userInterfaceIdiom == .pad {
             navigationController.modalPresentationStyle = .formSheet
