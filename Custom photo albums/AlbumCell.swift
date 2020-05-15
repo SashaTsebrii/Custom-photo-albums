@@ -14,10 +14,17 @@ class AlbumCell: UICollectionViewCell {
     // MARK: Variables
     
     static var identifier: String = "AlbumCell"
-        
+    
+    var titleString: String? {
+        didSet {
+            titleLabel.text = titleString
+        }
+    }
+    
     var fetchResult: PHFetchResult<PHAsset>! {
         didSet {
             fetchPhotos()
+            subtitleLabel.text = "Items: \(String(fetchResult.count))"
         }
     }
     
@@ -25,7 +32,7 @@ class AlbumCell: UICollectionViewCell {
     
     // MARK: Properties
 
-    var titleLabel: BaseLabel = {
+    fileprivate var titleLabel: BaseLabel = {
         let label = BaseLabel(frame: .zero)
         if #available(iOS 8.2, *) {
             label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)

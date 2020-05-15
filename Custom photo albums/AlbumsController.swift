@@ -34,7 +34,7 @@ class AlbumsController: UIViewController {
         
         static let count = 3
     }
-        
+    
     fileprivate var allPhotos: PHFetchResult<PHAsset>!
     fileprivate var smartAlbums: PHFetchResult<PHAssetCollection>!
     fileprivate var userCollections: PHFetchResult<PHCollection>!
@@ -184,19 +184,19 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
         
         switch Section(rawValue: indexPath.section)! {
         case .allPhotos:
-            cell.titleLabel.text = NSLocalizedString("All Photos", comment: "")
+            cell.titleString = NSLocalizedString("All Photos", comment: "")
             cell.fetchResult = allPhotos
             return cell
         case .smartAlbums:
             let collection: PHCollection = smartAlbums.object(at: indexPath.row)
-            cell.titleLabel.text = collection.localizedTitle
+            cell.titleString = collection.localizedTitle
             guard let assetCollection = collection as? PHAssetCollection
                 else { fatalError("Expected an asset collection.") }
             cell.fetchResult = PHAsset.fetchAssets(in: assetCollection, options: nil)
             return cell
         case .userCollections:
             let collection: PHCollection = userCollections.object(at: indexPath.row)
-            cell.titleLabel.text = collection.localizedTitle
+            cell.titleString = collection.localizedTitle
             guard let assetCollection = collection as? PHAssetCollection
                 else { fatalError("Expected an asset collection.") }
             cell.fetchResult = PHAsset.fetchAssets(in: assetCollection, options: nil)
@@ -213,7 +213,7 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
         photosController.albumsController = self
         
         let cell = collectionView.cellForItem(at: indexPath) as! AlbumCell
-        photosController.title = cell.titleLabel.text
+        photosController.title = cell.titleString
         photosController.currentIndexPath = indexPath
         
         switch Section(rawValue: indexPath.section)! {
