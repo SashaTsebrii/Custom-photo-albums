@@ -137,8 +137,10 @@ class AlbumsController: UIViewController {
                 guard let userCollection = collection as? PHAssetCollection
                     else { fatalError("Expected an asset collection.") }
                 let userCollectionFetchResult = PHAsset.fetchAssets(in: userCollection, options: nil)
-                let userCollectionAlbum = Album(name: collection.localizedTitle!, fetchResult: userCollectionFetchResult)
-                allAlbums.append(userCollectionAlbum)
+                if userCollectionFetchResult.count > 0 {
+                    let userCollectionAlbum = Album(name: collection.localizedTitle!, fetchResult: userCollectionFetchResult)
+                    allAlbums.append(userCollectionAlbum)
+                }
             }
         }
         
