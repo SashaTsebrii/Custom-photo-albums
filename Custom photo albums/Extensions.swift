@@ -52,6 +52,7 @@ extension PHAsset {
                 return true
             }
             self.requestContentEditingInput(with: options, completionHandler: {(contentEditingInput: PHContentEditingInput?, info: [AnyHashable : Any]) -> Void in
+                // FIXME: Sometime recived next error in line below: Fatal error: "Unexpectedly found nil while unwrapping an Optional value". Maybe need implement to load photo from iCloud.
                 completionHandler(contentEditingInput!.fullSizeImageURL as URL?)
             })
         } else if self.mediaType == .video {
