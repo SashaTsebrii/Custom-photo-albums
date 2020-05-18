@@ -15,16 +15,17 @@ class AlbumCell: UICollectionViewCell {
     
     static var identifier: String = "AlbumCell"
     
-    var titleString: String? {
+    var album: Album! {
         didSet {
-            titleLabel.text = titleString
+            titleLabel.text = album.name
+            subtitleLabel.text = "Items: \(String(album.fetchResult.count))"
+            fetchResult = album.fetchResult
         }
     }
     
-    var fetchResult: PHFetchResult<PHAsset>! {
+    fileprivate var fetchResult: PHFetchResult<PHAsset>! {
         didSet {
             fetchPhotos()
-            subtitleLabel.text = "Items: \(String(fetchResult.count))"
         }
     }
     
