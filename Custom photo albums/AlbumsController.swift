@@ -23,7 +23,6 @@ class AlbumsController: UIViewController {
     
     var urlStrings: [String]? {
         didSet {
-            // FIXME: Move delegate function in viewWillDisappear function
             delegate?.getPhoto(urlStrings: urlStrings)
         }
     }
