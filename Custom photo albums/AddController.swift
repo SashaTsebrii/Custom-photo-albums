@@ -75,6 +75,8 @@ class AddController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        askAccessToPhotoLibrary()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -92,27 +94,65 @@ class AddController: UIViewController {
     @objc fileprivate func addButtonTapped(_ sender: UIButton) {
         print("👆 ADD BAR BUTTON")
         
-        let albumsController = AlbumsController()
-        albumsController.isEnteredFromApp = true
-        albumsController.delegate = self
-        let navigationController = UINavigationController(rootViewController: albumsController)
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            navigationController.modalPresentationStyle = .fullScreen
-            self.present(navigationController, animated: true, completion: nil)
-        } else if UIDevice.current.userInterfaceIdiom == .pad {
-            navigationController.modalPresentationStyle = .formSheet
-            self.present(navigationController, animated: true, completion: nil)
-            var size: CGSize = .zero
-            if UIDevice.current.orientation.isPortrait {
-                print("🔄 Portrait")
-                size = CGSize(width: view.bounds.width * 0.7, height: view.bounds.height * 0.7)
-            } else if UIDevice.current.orientation.isLandscape {
-                print("🔄 Landscape")
-                size = CGSize(width: view.bounds.height * 0.7, height: view.bounds.width * 0.7)
+        let photos = PHPhotoLibrary.authorizationStatus()
+        if photos == .authorized {
+            
+            let albumsController = AlbumsController()
+            albumsController.isEnteredFromApp = true
+            albumsController.delegate = self
+            let navigationController = UINavigationController(rootViewController: albumsController)
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                navigationController.modalPresentationStyle = .fullScreen
+                self.present(navigationController, animated: true, completion: nil)
+            } else if UIDevice.current.userInterfaceIdiom == .pad {
+                navigationController.modalPresentationStyle = .formSheet
+                self.present(navigationController, animated: true, completion: nil)
+                var size: CGSize = .zero
+                if UIDevice.current.orientation.isPortrait {
+                    print("🔄 Portrait")
+                    size = CGSize(width: view.bounds.width * 0.7, height: view.bounds.height * 0.7)
+                } else if UIDevice.current.orientation.isLandscape {
+                    print("🔄 Landscape")
+                    size = CGSize(width: view.bounds.height * 0.7, height: view.bounds.width * 0.7)
+                }
+                navigationController.preferredContentSize = CGSize(width: size.width, height: size.height)
             }
-            navigationController.preferredContentSize = CGSize(width: size.width, height: size.height)
+            
+        } else if photos == .notDetermined {
+            
+            let alertControl = UIAlertController(title: "No access to photo albums", message: "Please provide access to photo albums, you can do this by going to Settings -> CustomPhotoAlbum -> Photos.", preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+            alertControl.addAction(defaultAction)
+            present(alertControl, animated: true, completion: nil)
+            
         }
         
+        
+        
+    }
+    
+    // MARK: Helper
+    
+    fileprivate func askAccessToPhotoLibrary() {
+        let photos = PHPhotoLibrary.authorizationStatus()
+        if photos == .notDetermined {
+            
+            let alertControl = UIAlertController(title: "Access to photo albums", message: "Please allow the application to access Photo Albums. Otherwise, you will not be able to use all the functionality of this application.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Ok", style: .default) { (_) in
+                PHPhotoLibrary.requestAuthorization( {status in
+                    if status == .authorized {
+                        
+                    } else {
+                        
+                    }
+                })
+            }
+            alertControl.addAction(okAction)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alertControl.addAction(cancelAction)
+            present(alertControl, animated: true, completion: nil)
+            
+        }
     }
     
 }
