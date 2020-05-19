@@ -120,7 +120,7 @@ class AddController: UIViewController {
             
         } else if photos == .notDetermined {
             
-            let alertControl = UIAlertController(title: "No access to photo albums", message: "Please provide access to photo albums, you can do this by going to Settings -> CustomPhotoAlbum -> Photos.", preferredStyle: .alert)
+            let alertControl = UIAlertController(title: "No access to photo albums", message: "Please, allow the application to access Photo Albums. You can do this by going to Settings -> CustomPhotoAlbum -> Photos.", preferredStyle: .alert)
             let defaultAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
             alertControl.addAction(defaultAction)
             present(alertControl, animated: true, completion: nil)
@@ -137,7 +137,7 @@ class AddController: UIViewController {
         let photos = PHPhotoLibrary.authorizationStatus()
         if photos == .notDetermined {
             
-            let alertControl = UIAlertController(title: "Access to photo albums", message: "Please allow the application to access Photo Albums. Otherwise, you will not be able to use all the functionality of this application.", preferredStyle: .alert)
+            let alertControl = UIAlertController(title: "Need access to photo albums", message: "Please, allow the application to access Photo Albums. Otherwise, you will not be able to use all the functionality of this application.", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "Ok", style: .default) { (_) in
                 PHPhotoLibrary.requestAuthorization( {status in
                     if status == .authorized {
