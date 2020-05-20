@@ -102,31 +102,34 @@ class AlbumsController: UIViewController {
         
         // Create and set favorites album
         let favoritesCollection: PHFetchResult<PHAssetCollection>! = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites, options: nil)
-        if favoritesCollection.count > 0 {
-            
-        }
-        let favoritesCollectionFetchResult = PHAsset.fetchAssets(in: favoritesCollection.firstObject!, options: smartAlbumsOptions)
-        if favoritesCollectionFetchResult.count > 0 {
-            let favoritesCollectionAlbum = Album(name: favoritesCollection.firstObject!.localizedTitle!, fetchResult: favoritesCollectionFetchResult)
-            allAlbums.append(favoritesCollectionAlbum)
+        if let firstObjectInFavoritesCollection = favoritesCollection.firstObject {
+            let favoritesCollectionFetchResult = PHAsset.fetchAssets(in: firstObjectInFavoritesCollection, options: smartAlbumsOptions)
+            if favoritesCollectionFetchResult.count > 0 {
+                let favoritesCollectionAlbum = Album(name: firstObjectInFavoritesCollection.localizedTitle!, fetchResult: favoritesCollectionFetchResult)
+                allAlbums.append(favoritesCollectionAlbum)
+            }
         }
         
         // Create and set recently Added album
         let recentlyAddedCollection: PHFetchResult<PHAssetCollection>! = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumRecentlyAdded, options: nil)
-        let recentlyAddedCollectionFetchResult = PHAsset.fetchAssets(in: recentlyAddedCollection.firstObject!, options: smartAlbumsOptions)
-        if recentlyAddedCollectionFetchResult.count > 0 {
-            let recentlyAddedCollectionAlbum = Album(name: recentlyAddedCollection.firstObject!.localizedTitle!, fetchResult: recentlyAddedCollectionFetchResult)
-            allAlbums.append(recentlyAddedCollectionAlbum)
+        if let firstObjectInRecentlyAddedCollection = recentlyAddedCollection.firstObject {
+            let recentlyAddedCollectionFetchResult = PHAsset.fetchAssets(in: firstObjectInRecentlyAddedCollection, options: smartAlbumsOptions)
+            if recentlyAddedCollectionFetchResult.count > 0 {
+                let recentlyAddedCollectionAlbum = Album(name: firstObjectInRecentlyAddedCollection.localizedTitle!, fetchResult: recentlyAddedCollectionFetchResult)
+                allAlbums.append(recentlyAddedCollectionAlbum)
+            }
         }
         
         // Create and set self portraits album
         if #available(iOS 9, *) {
             let selfPortraitsCollection: PHFetchResult<PHAssetCollection>!
             selfPortraitsCollection = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumSelfPortraits, options: nil)
-            let selfPortraitsCollectionFetchResult = PHAsset.fetchAssets(in: selfPortraitsCollection.firstObject!, options: smartAlbumsOptions)
-            if selfPortraitsCollectionFetchResult.count > 0 {
-                let selfPortraitsCollectionAlbum = Album(name: selfPortraitsCollection.firstObject!.localizedTitle!, fetchResult: selfPortraitsCollectionFetchResult)
-                allAlbums.append(selfPortraitsCollectionAlbum)
+            if let firstObjectInSelfPortraitsCollection = selfPortraitsCollection.firstObject {
+                let selfPortraitsCollectionFetchResult = PHAsset.fetchAssets(in: firstObjectInSelfPortraitsCollection, options: smartAlbumsOptions)
+                if selfPortraitsCollectionFetchResult.count > 0 {
+                    let selfPortraitsCollectionAlbum = Album(name: firstObjectInSelfPortraitsCollection.localizedTitle!, fetchResult: selfPortraitsCollectionFetchResult)
+                    allAlbums.append(selfPortraitsCollectionAlbum)
+                }
             }
         }
         
@@ -134,10 +137,12 @@ class AlbumsController: UIViewController {
         if #available(iOS 9, *) {
             let screenshotsCollection: PHFetchResult<PHAssetCollection>!
             screenshotsCollection = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumScreenshots, options: nil)
-            let screenshotsCollectionFetchResult = PHAsset.fetchAssets(in: screenshotsCollection.firstObject!, options: smartAlbumsOptions)
-            if screenshotsCollectionFetchResult.count > 0 {
-                let screenshotsCollectionAlbum = Album(name: screenshotsCollection.firstObject!.localizedTitle!, fetchResult: screenshotsCollectionFetchResult)
-                allAlbums.append(screenshotsCollectionAlbum)
+            if let firstObjectInScreenshotsCollection = screenshotsCollection.firstObject {
+                let screenshotsCollectionFetchResult = PHAsset.fetchAssets(in: firstObjectInScreenshotsCollection, options: smartAlbumsOptions)
+                if screenshotsCollectionFetchResult.count > 0 {
+                    let screenshotsCollectionAlbum = Album(name: firstObjectInScreenshotsCollection.localizedTitle!, fetchResult: screenshotsCollectionFetchResult)
+                    allAlbums.append(screenshotsCollectionAlbum)
+                }
             }
         }
         
