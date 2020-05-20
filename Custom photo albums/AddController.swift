@@ -127,13 +127,12 @@ class AddController: UIViewController {
             
         }
         
-        
-        
     }
     
     // MARK: Helper
     
     fileprivate func askAccessToPhotoLibrary() {
+        
         let photos = PHPhotoLibrary.authorizationStatus()
         if photos == .notDetermined {
             
@@ -153,6 +152,7 @@ class AddController: UIViewController {
             present(alertControl, animated: true, completion: nil)
             
         }
+        
     }
     
 }
