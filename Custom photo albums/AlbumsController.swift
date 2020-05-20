@@ -102,6 +102,9 @@ class AlbumsController: UIViewController {
         
         // Create and set favorites album
         let favoritesCollection: PHFetchResult<PHAssetCollection>! = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites, options: nil)
+        if favoritesCollection.count > 0 {
+            
+        }
         let favoritesCollectionFetchResult = PHAsset.fetchAssets(in: favoritesCollection.firstObject!, options: smartAlbumsOptions)
         if favoritesCollectionFetchResult.count > 0 {
             let favoritesCollectionAlbum = Album(name: favoritesCollection.firstObject!.localizedTitle!, fetchResult: favoritesCollectionFetchResult)

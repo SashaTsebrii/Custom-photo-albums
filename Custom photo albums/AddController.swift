@@ -115,7 +115,7 @@ class AddController: UIViewController {
                     print("🔄 Landscape")
                     size = CGSize(width: view.bounds.height * 0.7, height: view.bounds.width * 0.7)
                 }
-                navigationController.preferredContentSize = CGSize(width: size.width, height: size.height)
+                navigationController.preferredContentSize = size
             }
             
         } else if photos == .notDetermined {
@@ -162,10 +162,11 @@ extension AddController: AlbumsControllerDelegate {
     // MARK: AlbumsControllerDelegate
     
     func getPhoto(urlStrings: [String]?) {
+        
         if let urlStrings = urlStrings {
             for urlString in urlStrings {
-                let correctStringUrl = "file://" + urlString
-                guard let url = URL(string: correctStringUrl) else { return }
+                let correctUrlString = "file://" + urlString
+                guard let url = URL(string: correctUrlString) else { return }
                 do {
                     let imageData = try Data(contentsOf: url)
                     previewImageView.image = UIImage(data: imageData)
