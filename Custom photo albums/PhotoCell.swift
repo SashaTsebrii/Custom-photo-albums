@@ -34,6 +34,18 @@ class PhotoCell: UICollectionViewCell {
         }
     }
     
+    var isActivityViewActive: Bool = false {
+        didSet {
+            if isActivityViewActive {
+                activityView.isHidden = false
+                activityView.startAnimating()
+            } else {
+                activityView.stopAnimating()
+                activityView.isHidden = true
+            }
+        }
+    }
+    
     // MARK: Properties
     
     fileprivate var photoImageView = PreviewImageView(frame: .zero)
@@ -46,6 +58,12 @@ class PhotoCell: UICollectionViewCell {
     }()
     
     fileprivate var checkView = CheckView(frame: .zero)
+    
+    fileprivate var activityView: UIActivityIndicatorView = {
+        let activityView = UIActivityIndicatorView()
+        activityView.translatesAutoresizingMaskIntoConstraints = false
+        return activityView
+    }()
     
     // MARK: Initialization
 
@@ -95,6 +113,17 @@ class PhotoCell: UICollectionViewCell {
             NSLayoutConstraint(item: checkView, attribute: .height, relatedBy: .equal, toItem: checkView, attribute: .width, multiplier: 0.0, constant: 0.0).isActive = true
             NSLayoutConstraint(item: checkView, attribute: .trailing, relatedBy: .equal, toItem: overlayView, attribute: .trailing, multiplier: 0.0, constant: -4.0).isActive = true
             NSLayoutConstraint(item: checkView, attribute: .bottom, relatedBy: .equal, toItem: overlayView, attribute: .bottom, multiplier: 0.0, constant: -4.0).isActive = true
+        }
+        
+        contentView.addSubview(activityView)
+        if #available(iOS 9, *) {
+            NSLayoutConstraint.activate([
+                activityView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+                activityView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            ])
+        } else {
+            NSLayoutConstraint(item: activityView, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX, multiplier: 1.0, constant: 1.0).isActive = true
+            NSLayoutConstraint(item: activityView, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1.0, constant: 1.0).isActive = true
         }
         
     }
