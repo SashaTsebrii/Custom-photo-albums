@@ -10,7 +10,7 @@ import UIKit
 import Photos
 
 protocol AlbumsControllerDelegate: class {
-    func getPhoto(urlStrings: [String]?)
+    func getPhoto(assets: [PHAsset]?)
 }
 
 class AlbumsController: UIViewController {
@@ -21,9 +21,9 @@ class AlbumsController: UIViewController {
     
     var isEnteredFromApp: Bool = false
     
-    var urlStrings: [String]? {
+    var assets: [PHAsset]? {
         didSet {
-            delegate?.getPhoto(urlStrings: urlStrings)
+            delegate?.getPhoto(assets: assets)
         }
     }
     

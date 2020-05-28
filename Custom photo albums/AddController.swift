@@ -15,6 +15,11 @@ class AddController: UIViewController {
     
     fileprivate var selectedImages = [UIImage]()
     
+    fileprivate var targetSize: CGSize {
+        let scale = UIScreen.main.scale
+        return CGSize(width: previewImageView.bounds.width * scale, height: previewImageView.bounds.height * scale)
+    }
+    
     // MARK: Properties
     
     fileprivate let addButton: CircleButton = {
@@ -29,6 +34,12 @@ class AddController: UIViewController {
         imageView.backgroundColor = .lightGray
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
+    }()
+    
+    var activityView: UIActivityIndicatorView = {
+        let activityView = UIActivityIndicatorView()
+        activityView.translatesAutoresizingMaskIntoConstraints = false
+        return activityView
     }()
     
     // MARK: Lifecycle
@@ -68,6 +79,17 @@ class AddController: UIViewController {
             NSLayoutConstraint(item: previewImageView, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1.0, constant: 16.0).isActive = true
             NSLayoutConstraint(item: previewImageView, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 0.0, constant: -16.0).isActive = true
             NSLayoutConstraint(item: previewImageView, attribute: .bottom, relatedBy: .equal, toItem: addButton, attribute: .top, multiplier: 0.0, constant: -16.0).isActive = true
+        }
+        
+        previewImageView.addSubview(activityView)
+        if #available(iOS 9, *) {
+            NSLayoutConstraint.activate([
+                activityView.centerXAnchor.constraint(equalTo: previewImageView.centerXAnchor),
+                activityView.centerYAnchor.constraint(equalTo: previewImageView.centerYAnchor)
+            ])
+        } else {
+            NSLayoutConstraint(item: activityView, attribute: .centerX, relatedBy: .equal, toItem: previewImageView, attribute: .centerX, multiplier: 1.0, constant: 1.0).isActive = true
+            NSLayoutConstraint(item: activityView, attribute: .centerY, relatedBy: .equal, toItem: previewImageView, attribute: .centerY, multiplier: 1.0, constant: 1.0).isActive = true
         }
         
     }
@@ -161,18 +183,35 @@ extension AddController: AlbumsControllerDelegate {
     
     // MARK: AlbumsControllerDelegate
     
-    func getPhoto(urlStrings: [String]?) {
+    func getPhoto(assets: [PHAsset]?) {
         
-        if let urlStrings = urlStrings {
-            for urlString in urlStrings {
-                let correctUrlString = "file://" + urlString
-                guard let url = URL(string: correctUrlString) else { return }
-                do {
-                    let imageData = try Data(contentsOf: url)
-                    previewImageView.image = UIImage(data: imageData)
-                } catch {
-                    print("Error loading image : \(error)")
+        if let assets = assets {
+            for asset in assets {
+                
+                if !activityView.isAnimating {
+                    activityView.startAnimating()
                 }
+                
+                // Prepare the options to pass when fetching the (photo, or video preview) image.
+                let options = PHImageRequestOptions()
+                options.deliveryMode = .highQualityFormat
+                options.isNetworkAccessAllowed = true
+                
+                PHImageManager.default().requestImage(for: asset, targetSize: self.targetSize, contentMode: .aspectFit, options: options, resultHandler: { image, _ in
+                    
+                    // If the request succeeded, show the image view.
+                    guard let image = image else { return }
+                    
+                    // Show the image.
+                    self.previewImageView.image = image
+                    
+                    DispatchQueue.main.async {
+                        if self.activityView.isAnimating {
+                            self.activityView.stopAnimating()
+                        }
+                    }
+                    
+                })
             }
         }
         

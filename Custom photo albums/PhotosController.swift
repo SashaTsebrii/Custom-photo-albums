@@ -31,7 +31,7 @@ class PhotosController: UIViewController {
     // This is selected cell Index array
     fileprivate var selectedIndexes = [IndexPath]()
     
-    fileprivate var assetUrlStrings = [String]()
+    fileprivate var assets = [PHAsset]()
     
     // MARK: Properties
     
@@ -178,20 +178,13 @@ class PhotosController: UIViewController {
                 // Enter the dispatch group
                 dispatchGroup.enter()
                 let asset = fetchResult.object(at: selectedIndex.item)
-                asset.getURL { (url) in
-                    if let url = url {
-                        print(url)
-                        let path: String = url.path
-                        self.assetUrlStrings.append(path)
-                        // Exit dispatch group
-                        dispatchGroup.leave()
-                    }
-                }
+                assets.append(asset)
+                dispatchGroup.leave()
             }
             
             dispatchGroup.notify(queue: DispatchQueue.main, execute: {
                 
-                self.albumsController?.urlStrings = self.assetUrlStrings
+                self.albumsController?.assets = self.assets
                                 
                 if let currentIndexPath = self.currentIndexPath {
                     self.storaIndexPath(currentIndexPath, byKey: Constants.kUserDefaults.kPreviousIndexPath)
