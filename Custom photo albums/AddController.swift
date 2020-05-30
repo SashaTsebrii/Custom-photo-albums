@@ -97,6 +97,10 @@ class AddController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Create Cancel button
+        let shareBarButton = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(shareBarButtonTapped(_:)))
+        self.navigationItem.rightBarButtonItem = shareBarButton
+        
         askAccessToPhotoLibrary()
         
     }
@@ -112,6 +116,35 @@ class AddController: UIViewController {
     }
     
     // MARK: Actions
+    
+    @objc func shareBarButtonTapped(_ sender: UIBarButtonItem) {
+        print("👆 SHARE BAR BUTTON")
+
+        // image to share
+        if let image = previewImageView.image {
+            
+            // Set up activity view controller
+            let imageToShare = [image]
+            let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
+
+            // Exclude some activity types from the list (optional)
+            activityViewController.excludedActivityTypes = [ UIActivity.ActivityType.airDrop, UIActivity.ActivityType.postToFacebook ]
+
+            // Present the view controller
+            self.present(activityViewController, animated: true, completion: nil)
+            
+        } else {
+            
+            let alertControl = UIAlertController(title: "No selected image", message: "Please, select image from Photo Library before share it.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+            alertControl.addAction(okAction)
+            present(alertControl, animated: true, completion: nil)
+            
+        }
+
+        
+    }
     
     @objc fileprivate func addButtonTapped(_ sender: UIButton) {
         print("👆 ADD BUTTON")
