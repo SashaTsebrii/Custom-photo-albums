@@ -65,13 +65,13 @@ class AlbumCell: UICollectionViewCell {
         contentView.addSubview(mainImageView)
         if #available(iOS 9, *) {
             NSLayoutConstraint.activate([
-                mainImageView.widthAnchor.constraint(equalToConstant: frame.width * 0.62),
+                mainImageView.widthAnchor.constraint(equalToConstant: frame.width * 0.61),
                 mainImageView.heightAnchor.constraint(equalTo: mainImageView.widthAnchor),
                 mainImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
                 mainImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4)
             ])
         } else {
-            NSLayoutConstraint(item: mainImageView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: frame.width * 0.62).isActive = true
+            NSLayoutConstraint(item: mainImageView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: frame.width * 0.61).isActive = true
             NSLayoutConstraint(item: mainImageView, attribute: .height, relatedBy: .equal, toItem: mainImageView, attribute: .width, multiplier: 0.0, constant: 0.0).isActive = true
             NSLayoutConstraint(item: mainImageView, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 0.0, constant: 4.0).isActive = true
             NSLayoutConstraint(item: mainImageView, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, multiplier: 0.0, constant: 4.0).isActive = true
@@ -86,10 +86,7 @@ class AlbumCell: UICollectionViewCell {
             labelsStack.translatesAutoresizingMaskIntoConstraints = false
             
             contentView.addSubview(labelsStack)
-            NSLayoutConstraint.activate([
-                titleLabel.heightAnchor.constraint(equalToConstant: 16),
-                subtitleLabel.heightAnchor.constraint(equalToConstant: 12),
-                
+            NSLayoutConstraint.activate([                
                 labelsStack.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: 4),
                 labelsStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
                 labelsStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
