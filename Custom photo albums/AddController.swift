@@ -114,7 +114,7 @@ class AddController: UIViewController {
     // MARK: Actions
     
     @objc fileprivate func addButtonTapped(_ sender: UIButton) {
-        print("👆 ADD BAR BUTTON")
+        print("👆 ADD BUTTON")
         
         let status = PHPhotoLibrary.authorizationStatus()
         if status == .authorized {
