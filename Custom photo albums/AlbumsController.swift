@@ -91,9 +91,9 @@ class AlbumsController: UIViewController {
         userCollectionOptions.predicate = NSPredicate(format: "estimatedAssetCount > 0")
         userCollections = PHCollectionList.fetchTopLevelUserCollections(with: userCollectionOptions)
         
+        // Sort objects for evry smart album
         let smartAlbumsOptions = PHFetchOptions()
         smartAlbumsOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
-        // TODO: Try sort objects for evry smart album
         /*
         smartAlbumsOptions.predicate = NSPredicate(format: "estimatedAssetCount > 0")
         */

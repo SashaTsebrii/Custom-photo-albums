@@ -49,7 +49,7 @@ class AddController: UIViewController {
         
         view.backgroundColor = UIColor.Design.background
         
-        title = "Load"
+        title = "Add"
         
         view.addSubview(addButton)
         if #available(iOS 11, *) {
@@ -116,8 +116,8 @@ class AddController: UIViewController {
     @objc fileprivate func addButtonTapped(_ sender: UIButton) {
         print("👆 ADD BAR BUTTON")
         
-        let photos = PHPhotoLibrary.authorizationStatus()
-        if photos == .authorized {
+        let status = PHPhotoLibrary.authorizationStatus()
+        if status == .authorized {
             
             let albumsController = AlbumsController()
             albumsController.isEnteredFromApp = true
@@ -140,12 +140,32 @@ class AddController: UIViewController {
                 navigationController.preferredContentSize = size
             }
             
-        } else if photos == .notDetermined {
+        } else {
             
-            let alertControl = UIAlertController(title: "No access to photo albums", message: "Please, allow the application to access Photo Albums. You can do this by going to Settings -> CustomPhotoAlbum -> Photos.", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "No access to Photo Albums", message: "Please, allow the application to access Photo Albums. You can do this by going to Settings -> CustomPhotoAlbum -> Photos.", preferredStyle: .alert)
             let defaultAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
-            alertControl.addAction(defaultAction)
-            present(alertControl, animated: true, completion: nil)
+            alertController.addAction(defaultAction)
+            
+            if #available(iOS 10.0, *) {
+                
+                let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) -> Void in
+                    
+                    guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                        return
+                    }
+                    
+                    if UIApplication.shared.canOpenURL(settingsUrl) {
+                        UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                            print("Settings opened: \(success)")
+                        })
+                    }
+                    
+                }
+                alertController.addAction(settingsAction)
+                
+            }
+            
+            present(alertController, animated: true, completion: nil)
             
         }
         
@@ -155,10 +175,10 @@ class AddController: UIViewController {
     
     fileprivate func askAccessToPhotoLibrary() {
         
-        let photos = PHPhotoLibrary.authorizationStatus()
-        if photos == .notDetermined {
+        let status = PHPhotoLibrary.authorizationStatus()
+        if status == .notDetermined {
             
-            let alertControl = UIAlertController(title: "Need access to photo albums", message: "Please, allow the application to access Photo Albums. Otherwise, you will not be able to use all the functionality of this application.", preferredStyle: .alert)
+            let alertControl = UIAlertController(title: "Need access to Photo Albums", message: "Please, allow the application to access Photo Albums. Otherwise, you will not be able to use all the functionality of this application.", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "Ok", style: .default) { (_) in
                 PHPhotoLibrary.requestAuthorization( {status in
                     if status == .authorized {
