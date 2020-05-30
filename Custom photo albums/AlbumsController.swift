@@ -79,6 +79,7 @@ class AlbumsController: UIViewController {
         
         // Create and set all photos
         let allPhotosOptions = PHFetchOptions()
+        // If need sort photo by modification date, use next key: "modificationDate"
         allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
         allPhotosOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
         let allPhotos: PHFetchResult<PHAsset>! = PHAsset.fetchAssets(with: allPhotosOptions)
