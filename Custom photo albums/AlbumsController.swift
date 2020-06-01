@@ -69,11 +69,11 @@ class AlbumsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Albums"
+        navigationItem.title = NSLocalizedString("Albums", comment: "")
         
-        // Create Cancel button
-        let cancelBarButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelBarButtonTapped(_:)))
-        self.navigationItem.leftBarButtonItem = cancelBarButton
+        // Create Close button
+        let closeBarButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .plain, target: self, action: #selector(closeBarButtonTapped(_:)))
+        self.navigationItem.rightBarButtonItem = closeBarButton
         
         // Create a PHFetchResult object for each section in the collection view. Fetching all PHAssetCollections with at least some media in it
         
@@ -83,13 +83,16 @@ class AlbumsController: UIViewController {
         allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
         allPhotosOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
         let allPhotos: PHFetchResult<PHAsset>! = PHAsset.fetchAssets(with: allPhotosOptions)
-        let allPhotosAlbum = Album(name: "All Photos", fetchResult: allPhotos)
+        let allPhotosAlbum = Album(name: NSLocalizedString("All Photos", comment: ""), fetchResult: allPhotos)
         allAlbums.append(allPhotosAlbum)
         
         // Create user collection
         var userCollections: PHFetchResult<PHCollection>!
         let userCollectionOptions = PHFetchOptions()
+        // Bellow NSPredicate leads to an error on the iPad mini, I don't know why.
+        /*
         userCollectionOptions.predicate = NSPredicate(format: "estimatedAssetCount > 0")
+        */
         userCollections = PHCollectionList.fetchTopLevelUserCollections(with: userCollectionOptions)
         
         // Sort objects for evry smart album
@@ -195,8 +198,10 @@ class AlbumsController: UIViewController {
     
     // MARK: Actons
     
-    @objc fileprivate func cancelBarButtonTapped(_ sender: UIBarButtonItem) {
-        print("👆 CANCEL BAR BUTTON")
+    @objc fileprivate func closeBarButtonTapped(_ sender: UIBarButtonItem) {
+    print("👆 CLOSE BAR BUTTON")
+        
+        delegate?.getPhoto(assets: nil)
         
         dismiss(animated: true, completion: nil)
         
