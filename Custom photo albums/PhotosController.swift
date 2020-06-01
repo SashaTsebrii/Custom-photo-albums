@@ -148,7 +148,7 @@ class PhotosController: UIViewController {
         super.viewWillDisappear(animated)
 
         // Catch when back button tapped
-        if self.isMovingFromParent {
+        if isMovingFromParent {
             backBarButtonTapped()
         }
         
@@ -175,11 +175,7 @@ class PhotosController: UIViewController {
     @objc fileprivate func closeBarButtonTapped(_ sender: UIBarButtonItem) {
         print("👆 CLOSE BAR BUTTON")
         
-        self.albumsController?.assets = nil
-        
-        let userDefaults = UserDefaults.standard
-        userDefaults.removeObject(forKey: Constants.kUserDefaults.kPreviousIndexPath)
-        userDefaults.synchronize()
+        albumsController?.assets = nil
         
         dismiss(animated: true, completion: nil)
         
