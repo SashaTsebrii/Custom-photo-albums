@@ -246,16 +246,22 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         // TODO: Implement dynamic cell height
         if UIDevice.current.userInterfaceIdiom == .phone {
-            return CGSize(width: (collectionView.bounds.width * 0.5) - 16, height: (collectionView.bounds.width * 0.45) - 16)
+            return CGSize(width: (collectionView.bounds.width * 0.515) - 16, height: (collectionView.bounds.width * 0.47) - 16)
         } else if UIDevice.current.userInterfaceIdiom == .pad {
-            return CGSize(width: (collectionView.bounds.width * 0.5) - 16, height: (collectionView.bounds.width * 0.4) - 16)
+            return CGSize(width: (collectionView.bounds.width * 0.51) - 16, height: (collectionView.bounds.width * 0.43) - 16)
         } else {
             return .zero
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 8, left: 10, bottom: 0, right: 10) //.zero
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return UIEdgeInsets(top: 8, left: 8, bottom: 0, right: 8) //.zero
+        } else if UIDevice.current.userInterfaceIdiom == .pad {
+            return UIEdgeInsets(top: 8, left: 8, bottom: 0, right: 8) //.zero
+        } else {
+            return .zero
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
