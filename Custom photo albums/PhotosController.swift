@@ -14,6 +14,13 @@ class PhotosController: UIViewController {
     
     // MARK: Variables
     
+    fileprivate enum BarButton: Int {
+        case closeItem = 0
+        case importItem = 1
+    }
+    
+     var barButtons: [UIBarButtonItem] = []
+    
     fileprivate var isFirstTime: Bool = true
     
     var albumsController: AlbumsController?
@@ -29,7 +36,15 @@ class PhotosController: UIViewController {
     fileprivate var previousPreheatRect = CGRect.zero
     
     // This is selected cell Index array
-    fileprivate var selectedIndexes = [IndexPath]()
+    fileprivate var selectedIndexes = [IndexPath]() {
+        didSet {
+            if selectedIndexes.count > 0 {
+                setBarButton(BarButton.importItem)
+            } else {
+                setBarButton(BarButton.closeItem)
+            }
+        }
+    }
     
     fileprivate var assets = [PHAsset]()
     
@@ -76,9 +91,9 @@ class PhotosController: UIViewController {
         
         isFirstTime = true
         
-        // Create Import button
-        let importBarButton = UIBarButtonItem(title: "Import", style: .plain, target: self, action: #selector(importBarButtonTapped(_:)))
-        self.navigationItem.rightBarButtonItem = importBarButton
+        createButButtons()
+        
+        setBarButton(BarButton.closeItem)
         
         resetCachedAssets()
         PHPhotoLibrary.shared().register(self)
@@ -157,6 +172,19 @@ class PhotosController: UIViewController {
     
     // MARK: Actions
     
+    @objc fileprivate func closeBarButtonTapped(_ sender: UIBarButtonItem) {
+        print("👆 CLOSE BAR BUTTON")
+        
+        self.albumsController?.assets = nil
+        
+        let userDefaults = UserDefaults.standard
+        userDefaults.removeObject(forKey: Constants.kUserDefaults.kPreviousIndexPath)
+        userDefaults.synchronize()
+        
+        dismiss(animated: true, completion: nil)
+        
+    }
+    
     fileprivate func backBarButtonTapped() {
         print("👆 BACK BAR BUTTON")
         
@@ -196,8 +224,10 @@ class PhotosController: UIViewController {
             
         } else {
             
-            let alertControl = UIAlertController(title: "No selected images", message: "Please select an image to import it.", preferredStyle: .alert)
-            let defaultAction = UIAlertAction(title: "ok", style: .cancel, handler: nil)
+            let alertControl = UIAlertController(title: NSLocalizedString("No selected images", comment: ""),
+                                                 message: NSLocalizedString("Please select an image to import it.", comment: ""),
+                                                 preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .cancel, handler: nil)
             alertControl.addAction(defaultAction)
             present(alertControl, animated: true, completion: nil)
             
@@ -206,6 +236,22 @@ class PhotosController: UIViewController {
     }
     
     // MARK: Helper
+    
+    fileprivate func createButButtons() {
+        // Create Cancel button
+        let closeBarButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .plain, target: self, action: #selector(closeBarButtonTapped(_:)))
+        barButtons.append(closeBarButton)
+        
+        // Create Import button
+        let importBarButton = UIBarButtonItem(title: NSLocalizedString("Import", comment: ""), style: .plain, target: self, action: #selector(importBarButtonTapped(_:)))
+        barButtons.append(importBarButton)
+    }
+    
+    fileprivate func setBarButton(_ item: BarButton) {
+        
+        navigationItem.rightBarButtonItem = barButtons[item.rawValue]
+        
+    }
     
     fileprivate func storaIndexPath(_ indexPath: IndexPath, byKey: String) {
         
