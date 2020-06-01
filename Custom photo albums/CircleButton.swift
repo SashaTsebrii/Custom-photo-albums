@@ -13,7 +13,7 @@ class CircleButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        let image = UIImage(named: "Image")
+        let image = UIImage(named: "image")
         setImage(image, for: .normal)
         backgroundColor = UIColor.Design.batton
         translatesAutoresizingMaskIntoConstraints = false

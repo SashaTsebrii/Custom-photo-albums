@@ -49,7 +49,7 @@ class AddController: UIViewController {
         
         view.backgroundColor = UIColor.Design.background
         
-        title = "Add"
+        title = NSLocalizedString("Add", comment: "")
         
         view.addSubview(addButton)
         if #available(iOS 11, *) {
@@ -131,10 +131,10 @@ class AddController: UIViewController {
                 self.present(navigationController, animated: true, completion: nil)
                 var size: CGSize = .zero
                 if UIDevice.current.orientation.isPortrait {
-                    print("🔄 Portrait")
+                    print("🔄 PORTRAIT")
                     size = CGSize(width: view.bounds.width * 0.7, height: view.bounds.height * 0.7)
                 } else if UIDevice.current.orientation.isLandscape {
-                    print("🔄 Landscape")
+                    print("🔄 LANDSCAPE")
                     size = CGSize(width: view.bounds.height * 0.7, height: view.bounds.width * 0.7)
                 }
                 navigationController.preferredContentSize = size
@@ -142,13 +142,15 @@ class AddController: UIViewController {
             
         } else {
             
-            let alertController = UIAlertController(title: "No access to Photo Albums", message: "Please, allow the application to access Photo Albums. You can do this by going to Settings -> CustomPhotoAlbum -> Photos.", preferredStyle: .alert)
-            let defaultAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+            let alertController = UIAlertController(title: NSLocalizedString("No access to Photo Albums", comment: ""),
+                                                    message: NSLocalizedString("Please, allow the application to access Photo Albums. You can do this by going to Settings -> CustomPhotoAlbum -> Photos.", comment: ""),
+                                                    preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .cancel, handler: nil)
             alertController.addAction(defaultAction)
             
             if #available(iOS 10.0, *) {
                 
-                let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) -> Void in
+                let settingsAction = UIAlertAction(title: NSLocalizedString("Settings", comment: ""), style: .default) { (_) -> Void in
                     
                     guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
                         return
@@ -156,7 +158,7 @@ class AddController: UIViewController {
                     
                     if UIApplication.shared.canOpenURL(settingsUrl) {
                         UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
-                            print("Settings opened: \(success)")
+                            print("✅ SETTINGS OPENED: \(success)")
                         })
                     }
                     
@@ -178,8 +180,10 @@ class AddController: UIViewController {
         let status = PHPhotoLibrary.authorizationStatus()
         if status == .notDetermined {
             
-            let alertControl = UIAlertController(title: "Need access to Photo Albums", message: "Please, allow the application to access Photo Albums. Otherwise, you will not be able to use all the functionality of this application.", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "Ok", style: .default) { (_) in
+            let alertControl = UIAlertController(title: NSLocalizedString("Need access to Photo Albums", comment: ""),
+                                                 message: NSLocalizedString("Please, allow the application to access Photo Albums. Otherwise, you will not be able to use all the functionality of this application.", comment: ""),
+                                                 preferredStyle: .alert)
+            let okAction = UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default) { (_) in
                 PHPhotoLibrary.requestAuthorization( {status in
                     if status == .authorized {
                         
@@ -189,7 +193,7 @@ class AddController: UIViewController {
                 })
             }
             alertControl.addAction(okAction)
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
             alertControl.addAction(cancelAction)
             present(alertControl, animated: true, completion: nil)
             
@@ -205,34 +209,41 @@ extension AddController: AlbumsControllerDelegate {
     
     func getPhoto(assets: [PHAsset]?) {
         
-        if let assets = assets {
-            for asset in assets {
-                
-                if !activityView.isAnimating {
-                    activityView.startAnimating()
-                }
-                
-                // Prepare the options to pass when fetching the (photo, or video preview) image.
-                let options = PHImageRequestOptions()
-                options.deliveryMode = .highQualityFormat
-                options.isNetworkAccessAllowed = true
-                
-                PHImageManager.default().requestImage(for: asset, targetSize: self.targetSize, contentMode: .aspectFit, options: options, resultHandler: { image, _ in
+        if assets == nil {
+            /// - Tag: Albums was closed
+        } else {
+            /// - Tag: Assets was imported
+            
+            if let assets = assets {
+                for asset in assets {
                     
-                    // If the request succeeded, show the image view.
-                    guard let image = image else { return }
-                    
-                    // Show the image.
-                    self.previewImageView.image = image
-                    
-                    DispatchQueue.main.async {
-                        if self.activityView.isAnimating {
-                            self.activityView.stopAnimating()
-                        }
+                    if !activityView.isAnimating {
+                        activityView.startAnimating()
                     }
                     
-                })
+                    // Prepare the options to pass when fetching the (photo, or video preview) image.
+                    let options = PHImageRequestOptions()
+                    options.deliveryMode = .highQualityFormat
+                    options.isNetworkAccessAllowed = true
+                    
+                    PHImageManager.default().requestImage(for: asset, targetSize: self.targetSize, contentMode: .aspectFit, options: options, resultHandler: { image, _ in
+                        
+                        // If the request succeeded, show the image view.
+                        guard let image = image else { return }
+                        
+                        // Show the image.
+                        self.previewImageView.image = image
+                        
+                        DispatchQueue.main.async {
+                            if self.activityView.isAnimating {
+                                self.activityView.stopAnimating()
+                            }
+                        }
+                        
+                    })
+                }
             }
+            
         }
         
     }

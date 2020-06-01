@@ -18,7 +18,7 @@ class AlbumCell: UICollectionViewCell {
     var album: Album! {
         didSet {
             titleLabel.text = album.name
-            subtitleLabel.text = "Items: \(String(album.fetchResult.count))"
+            subtitleLabel.text = (String(album.fetchResult.count))
             fetchResult = album.fetchResult
         }
     }
