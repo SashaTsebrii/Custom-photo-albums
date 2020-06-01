@@ -36,7 +36,7 @@ class AlbumCell: UICollectionViewCell {
     fileprivate var titleLabel: BaseLabel = {
         let label = BaseLabel(frame: .zero)
         if #available(iOS 8.2, *) {
-            label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+            label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         } else {
             label.font = UIFont.boldSystemFont(ofSize: 16)
         }
