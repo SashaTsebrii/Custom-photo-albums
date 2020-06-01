@@ -89,21 +89,12 @@ class AlbumsController: UIViewController {
         // Create user collection
         var userCollections: PHFetchResult<PHCollection>!
         let userCollectionOptions = PHFetchOptions()
-        // Bellow NSPredicate leads to an error on the iPad mini, I don't know why.
-        /*
-        userCollectionOptions.predicate = NSPredicate(format: "estimatedAssetCount > 0")
-        */
         userCollections = PHCollectionList.fetchTopLevelUserCollections(with: userCollectionOptions)
         
         // Sort objects for evry smart album
         let smartAlbumsOptions = PHFetchOptions()
         smartAlbumsOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
-        /*
-        smartAlbumsOptions.predicate = NSPredicate(format: "estimatedAssetCount > 0")
-        */
-        
-        // FIXME: Change firstObject from ! to ? in all collections
-        
+                
         // Create and set favorites album
         let favoritesCollection: PHFetchResult<PHAssetCollection>! = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites, options: nil)
         if let firstObjectInFavoritesCollection = favoritesCollection.firstObject {
@@ -154,12 +145,12 @@ class AlbumsController: UIViewController {
         if userCollections.count > 0 {
             for index in 0...userCollections.count - 1 {
                 let collection = userCollections.object(at: index)
-                guard let userCollection = collection as? PHAssetCollection
-                    else { fatalError("Expected an asset collection.") }
-                let userCollectionFetchResult = PHAsset.fetchAssets(in: userCollection, options: smartAlbumsOptions)
-                if userCollectionFetchResult.count > 0 {
-                    let userCollectionAlbum = Album(name: collection.localizedTitle!, fetchResult: userCollectionFetchResult)
-                    allAlbums.append(userCollectionAlbum)
+                if  let userCollection = collection as? PHAssetCollection {
+                    let userCollectionFetchResult = PHAsset.fetchAssets(in: userCollection, options: smartAlbumsOptions)
+                    if userCollectionFetchResult.count > 0 {
+                        let userCollectionAlbum = Album(name: collection.localizedTitle!, fetchResult: userCollectionFetchResult)
+                        allAlbums.append(userCollectionAlbum)
+                    }
                 }
             }
         }
@@ -285,32 +276,6 @@ extension AlbumsController: PHPhotoLibraryChangeObserver {
     func photoLibraryDidChange(_ changeInstance: PHChange) {
         
         // Change notifications may originate from a background queue. Re-dispatch to the main queue before acting on the change, so you can update the UI.
-        DispatchQueue.main.sync {
-            // Check each of the three top-level fetches for changes.
-            /*
-            if let changeDetails = changeInstance.changeDetails(for: allPhotos) {
-                // Update the cached fetch result.
-                allPhotos = changeDetails.fetchResultAfterChanges
-                // Don't update the table row that always reads "All Photos."
-            }
-            */
-            
-            // FIXME: Implement it for evry smart album
-            // Update the cached fetch results, and reload the table sections to match.
-            /*
-            if let changeDetails = changeInstance.changeDetails(for: smartAlbums) {
-                smartAlbums = changeDetails.fetchResultAfterChanges
-                collectionView.reloadSections(IndexSet(integer: Section.smartAlbums.rawValue))
-            }
-            */
-            
-            /*
-            if let changeDetails = changeInstance.changeDetails(for: userCollections) {
-                userCollections = changeDetails.fetchResultAfterChanges
-                collectionView.reloadSections(IndexSet(integer: Section.userCollections.rawValue))
-            }
-            */
-        }
         
     }
     
