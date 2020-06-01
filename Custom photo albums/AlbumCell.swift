@@ -45,10 +45,11 @@ class AlbumCell: UICollectionViewCell {
     
     fileprivate var subtitleLabel: BaseLabel = {
         let label = BaseLabel(frame: .zero)
+        label.textColor = .darkGray
         if #available(iOS 8.2, *) {
-            label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+            label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         } else {
-            label.font = UIFont.systemFont(ofSize: 12)
+            label.font = UIFont.systemFont(ofSize: 14)
         }
         return label
     }()
