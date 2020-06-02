@@ -248,7 +248,7 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
         if UIDevice.current.userInterfaceIdiom == .phone {
             return CGSize(width: (collectionView.bounds.width * 0.515) - 16, height: (collectionView.bounds.width * 0.47) - 16)
         } else if UIDevice.current.userInterfaceIdiom == .pad {
-            return CGSize(width: (collectionView.bounds.width * 0.51) - 16, height: (collectionView.bounds.width * 0.43) - 16)
+            return CGSize(width: (collectionView.bounds.width * 0.511) - 16, height: (collectionView.bounds.width * 0.43) - 16)
         } else {
             return .zero
         }
