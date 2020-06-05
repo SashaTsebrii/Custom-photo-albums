@@ -244,32 +244,71 @@ extension AlbumsController: UICollectionViewDataSource, UICollectionViewDelegate
     // MARK: UICollectionViewDelegateFlowLayout
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        // TODO: Implement dynamic cell height
+        
+        var optimalSize: CGSize = .zero
+        
         if UIDevice.current.userInterfaceIdiom == .phone {
-            return CGSize(width: (collectionView.bounds.width * 0.515) - 16, height: (collectionView.bounds.width * 0.47) - 16)
+            // iPhone
+            let optimalWidth = (view.bounds.width - 8 + 2 - 16) / 2
+            let optimalHeight = (view.bounds.width - 8 - 16) / 2.2
+            optimalSize = CGSize(width: optimalWidth, height: optimalHeight)
         } else if UIDevice.current.userInterfaceIdiom == .pad {
-            return CGSize(width: (collectionView.bounds.width * 0.511) - 16, height: (collectionView.bounds.width * 0.43) - 16)
-        } else {
-            return .zero
+            // iPad
+            let optimalWidth = (view.bounds.width - 8 + 2 - 16) / 2
+            let optimalHeight = (view.bounds.width - 8 - 16) / 2.4
+            optimalSize = CGSize(width: optimalWidth, height: optimalHeight)
         }
+        
+        return optimalSize
+        
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        var edgeInsets: UIEdgeInsets = UIEdgeInsets.zero
+        
         if UIDevice.current.userInterfaceIdiom == .phone {
-            return UIEdgeInsets(top: 8, left: 8, bottom: 0, right: 8) //.zero
+            // iPhone
+            edgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         } else if UIDevice.current.userInterfaceIdiom == .pad {
-            return UIEdgeInsets(top: 8, left: 8, bottom: 0, right: 8) //.zero
-        } else {
-            return .zero
+            // iPad
+            edgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         }
+        
+        return edgeInsets
+        
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        
+        var interitemSpacing: CGFloat = 0
+        
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            // iPhone
+            interitemSpacing = 4
+        } else if UIDevice.current.userInterfaceIdiom == .pad {
+            // iPad
+            interitemSpacing = 4
+        }
+        
+        return interitemSpacing
+        
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 8
+        
+        var lineSpacing: CGFloat = 0
+        
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            // iPhone
+            lineSpacing = 4
+        } else if UIDevice.current.userInterfaceIdiom == .pad {
+            // iPad
+            lineSpacing = 4
+        }
+        
+        return lineSpacing
+        
     }
     
 }
