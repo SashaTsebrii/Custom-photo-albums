@@ -61,10 +61,10 @@ class PhotoCell: UICollectionViewCell {
                 photoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2)
             ])
         } else {
-            NSLayoutConstraint(item: photoImageView, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 0.0, constant: 2.0).isActive = true
-            NSLayoutConstraint(item: photoImageView, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, multiplier: 0.0, constant: 2.0).isActive = true
-            NSLayoutConstraint(item: photoImageView, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing, multiplier: 0.0, constant: -2.0).isActive = true
-            NSLayoutConstraint(item: photoImageView, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 0.0, constant: -2.0).isActive = true
+            NSLayoutConstraint(item: photoImageView, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 1.0, constant: 2.0).isActive = true
+            NSLayoutConstraint(item: photoImageView, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, multiplier: 1.0, constant: 2.0).isActive = true
+            NSLayoutConstraint(item: photoImageView, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing, multiplier: 1.0, constant: -2.0).isActive = true
+            NSLayoutConstraint(item: photoImageView, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1.0, constant: -2.0).isActive = true
         }
         
         photoImageView.addSubview(overlayView)
@@ -76,10 +76,10 @@ class PhotoCell: UICollectionViewCell {
                 overlayView.bottomAnchor.constraint(equalTo: photoImageView.bottomAnchor)
             ])
         } else {
-            NSLayoutConstraint(item: overlayView, attribute: .top, relatedBy: .equal, toItem: photoImageView, attribute: .top, multiplier: 0.0, constant: 0.0).isActive = true
-            NSLayoutConstraint(item: overlayView, attribute: .leading, relatedBy: .equal, toItem: photoImageView, attribute: .leading, multiplier: 0.0, constant: 0.0).isActive = true
-            NSLayoutConstraint(item: overlayView, attribute: .trailing, relatedBy: .equal, toItem: photoImageView, attribute: .trailing, multiplier: 0.0, constant: 0.0).isActive = true
-            NSLayoutConstraint(item: overlayView, attribute: .bottom, relatedBy: .equal, toItem: photoImageView, attribute: .bottom, multiplier: 0.0, constant: 0.0).isActive = true
+            NSLayoutConstraint(item: overlayView, attribute: .top, relatedBy: .equal, toItem: photoImageView, attribute: .top, multiplier: 1.0, constant: 0.0).isActive = true
+            NSLayoutConstraint(item: overlayView, attribute: .leading, relatedBy: .equal, toItem: photoImageView, attribute: .leading, multiplier: 1.0, constant: 0.0).isActive = true
+            NSLayoutConstraint(item: overlayView, attribute: .trailing, relatedBy: .equal, toItem: photoImageView, attribute: .trailing, multiplier: 1.0, constant: 0.0).isActive = true
+            NSLayoutConstraint(item: overlayView, attribute: .bottom, relatedBy: .equal, toItem: photoImageView, attribute: .bottom, multiplier: 1.0, constant: 0.0).isActive = true
         }
         
         overlayView.addSubview(checkView)
@@ -92,9 +92,9 @@ class PhotoCell: UICollectionViewCell {
             ])
         } else {
             NSLayoutConstraint(item: checkView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 24.0).isActive = true
-            NSLayoutConstraint(item: checkView, attribute: .height, relatedBy: .equal, toItem: checkView, attribute: .width, multiplier: 0.0, constant: 0.0).isActive = true
-            NSLayoutConstraint(item: checkView, attribute: .trailing, relatedBy: .equal, toItem: overlayView, attribute: .trailing, multiplier: 0.0, constant: -4.0).isActive = true
-            NSLayoutConstraint(item: checkView, attribute: .bottom, relatedBy: .equal, toItem: overlayView, attribute: .bottom, multiplier: 0.0, constant: -4.0).isActive = true
+            NSLayoutConstraint(item: checkView, attribute: .height, relatedBy: .equal, toItem: checkView, attribute: .width, multiplier: 1.0, constant: 0.0).isActive = true
+            NSLayoutConstraint(item: checkView, attribute: .trailing, relatedBy: .equal, toItem: overlayView, attribute: .trailing, multiplier: 1.0, constant: -4.0).isActive = true
+            NSLayoutConstraint(item: checkView, attribute: .bottom, relatedBy: .equal, toItem: overlayView, attribute: .bottom, multiplier: 1.0, constant: -4.0).isActive = true
         }
         
     }

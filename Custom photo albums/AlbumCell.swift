@@ -73,9 +73,9 @@ class AlbumCell: UICollectionViewCell {
             ])
         } else {
             NSLayoutConstraint(item: mainImageView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: frame.width * 0.64).isActive = true
-            NSLayoutConstraint(item: mainImageView, attribute: .height, relatedBy: .equal, toItem: mainImageView, attribute: .width, multiplier: 0.0, constant: 0.0).isActive = true
-            NSLayoutConstraint(item: mainImageView, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 0.0, constant: 4.0).isActive = true
-            NSLayoutConstraint(item: mainImageView, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, multiplier: 0.0, constant: 4.0).isActive = true
+            NSLayoutConstraint(item: mainImageView, attribute: .height, relatedBy: .equal, toItem: mainImageView, attribute: .width, multiplier: 1.0, constant: 0.0).isActive = true
+            NSLayoutConstraint(item: mainImageView, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 1.0, constant: 4.0).isActive = true
+            NSLayoutConstraint(item: mainImageView, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, multiplier: 1.0, constant: 4.0).isActive = true
         }
         
         if #available(iOS 9, *) {
@@ -111,25 +111,25 @@ class AlbumCell: UICollectionViewCell {
         } else {
             contentView.addSubview(secondImageView)
             NSLayoutConstraint(item: secondImageView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: (mainImageView.bounds.height / 2) - 2).isActive = true
-            NSLayoutConstraint(item: secondImageView, attribute: .top, relatedBy: .equal, toItem: mainImageView, attribute: .top, multiplier: 0.0, constant: 0.0).isActive = true
-            NSLayoutConstraint(item: secondImageView, attribute: .leading, relatedBy: .equal, toItem: mainImageView, attribute: .trailing, multiplier: 0.0, constant: 2.0).isActive = true
-            NSLayoutConstraint(item: secondImageView, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing, multiplier: 0.0, constant: -4.0).isActive = true
+            NSLayoutConstraint(item: secondImageView, attribute: .top, relatedBy: .equal, toItem: mainImageView, attribute: .top, multiplier: 1.0, constant: 0.0).isActive = true
+            NSLayoutConstraint(item: secondImageView, attribute: .leading, relatedBy: .equal, toItem: mainImageView, attribute: .trailing, multiplier: 1.0, constant: 2.0).isActive = true
+            NSLayoutConstraint(item: secondImageView, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing, multiplier: 1.0, constant: -4.0).isActive = true
             
             contentView.addSubview(thirdImageView)
             NSLayoutConstraint(item: thirdImageView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: (mainImageView.bounds.height / 2) - 2).isActive = true
-            NSLayoutConstraint(item: thirdImageView, attribute: .leading, relatedBy: .equal, toItem: mainImageView, attribute: .trailing, multiplier: 0.0, constant: 2.0).isActive = true
-            NSLayoutConstraint(item: thirdImageView, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing, multiplier: 0.0, constant: -4.0).isActive = true
-            NSLayoutConstraint(item: thirdImageView, attribute: .bottom, relatedBy: .equal, toItem: mainImageView, attribute: .bottom, multiplier: 0.0, constant: 0.0).isActive = true
+            NSLayoutConstraint(item: thirdImageView, attribute: .leading, relatedBy: .equal, toItem: mainImageView, attribute: .trailing, multiplier: 1.0, constant: 2.0).isActive = true
+            NSLayoutConstraint(item: thirdImageView, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing, multiplier: 1.0, constant: -4.0).isActive = true
+            NSLayoutConstraint(item: thirdImageView, attribute: .bottom, relatedBy: .equal, toItem: mainImageView, attribute: .bottom, multiplier: 1.0, constant: 0.0).isActive = true
             
             contentView.addSubview(titleLabel)
-            NSLayoutConstraint(item: titleLabel, attribute: .top, relatedBy: .equal, toItem: mainImageView, attribute: .bottom, multiplier: 0.0, constant: 4.0).isActive = true
-            NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, multiplier: 0.0, constant: 4.0).isActive = true
-            NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing, multiplier: 0.0, constant: -4.0).isActive = true
+            NSLayoutConstraint(item: titleLabel, attribute: .top, relatedBy: .equal, toItem: mainImageView, attribute: .bottom, multiplier: 1.0, constant: 4.0).isActive = true
+            NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, multiplier: 1.0, constant: 4.0).isActive = true
+            NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing, multiplier: 1.0, constant: -4.0).isActive = true
             
             contentView.addSubview(subtitleLabel)
-            NSLayoutConstraint(item: subtitleLabel, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, multiplier: 0.0, constant: 4.0).isActive = true
-            NSLayoutConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing, multiplier: 0.0, constant: -4.0).isActive = true
-            NSLayoutConstraint(item: subtitleLabel, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 0.0, constant: -4.0).isActive = true
+            NSLayoutConstraint(item: subtitleLabel, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, multiplier: 1.0, constant: 4.0).isActive = true
+            NSLayoutConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing, multiplier: 1.0, constant: -4.0).isActive = true
+            NSLayoutConstraint(item: subtitleLabel, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1.0, constant: -4.0).isActive = true
         }
         
     }
